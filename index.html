@@ -1,113 +1,4 @@
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050a11">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>IRON QUEST</title>
-<style>
-:root{
- --bg:#050a11;--panel:#0a1725;--panel2:#0e2135;--line:#24445f;--text:#f6f8fb;
- --muted:#91a5b8;--gold:#e9bb54;--blue:#21a8ff;--red:#ff6158;--green:#68d69b;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,select{font:inherit} button{cursor:pointer}
-.app{max-width:520px;min-height:100vh;margin:auto;padding:14px 14px 92px;background:radial-gradient(circle at 50% 0,#10233a 0,#050a11 46%)}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{font:900 25px Georgia,serif;letter-spacing:.08em;color:#f2d99e}.tag{font-size:9px;letter-spacing:.11em;color:var(--muted)}
-.iconbtn{border:1px solid #315775;background:#071522;color:#dceeff;border-radius:9px;padding:8px 10px}
-.card{background:linear-gradient(180deg,#0d2034,#081522);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 28px #0008}
-.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}.small{font-size:12px;color:var(--muted)}
-.badge{display:inline-flex;padding:5px 8px;border:1px solid #765d24;border-radius:999px;background:#17160d;color:#f2ce73;font-size:11px}
-.big{font-size:25px;font-weight:900}.power{font-size:25px;font-weight:1000;color:var(--gold)}
-.hero{height:282px;margin:10px 0;border:1px solid #294c69;border-radius:13px;overflow:hidden;position:relative;background:#07111b}
-.hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:radial-gradient(circle at 50% 40%,#17304b,#07111b 70%);display:block}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#07111cf3 0,transparent 42%)}
-.heroLabel{position:absolute;left:12px;bottom:10px;z-index:2}
-.bar{height:10px;background:#020812;border:1px solid #21405b;border-radius:999px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,#168ce2,#54d8ff)}
-.hp>div{background:linear-gradient(90deg,#ff5c53,#ff9a47)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.stat{text-align:center;background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.stat b{display:block;font-size:18px;color:#f2cc6e}
-.section{margin-top:11px}.section h3{font-size:15px;color:#efd18b;margin:0 0 9px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.muscle{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.muscle span{float:right;color:#55c9ff;font-weight:900}
-.enemyVisual{height:180px;border:1px solid #53362e;border-radius:12px;overflow:hidden;background:#160a0a;margin:9px 0}.enemyVisual img{width:100%;height:100%;object-fit:contain;background:radial-gradient(circle,#39131a,#140809 70%)}
-.primary,.secondary,.danger{width:100%;border-radius:11px;padding:13px 14px;font-weight:900}.primary{border:1px solid #4ac8ff;background:linear-gradient(180deg,#1199ed,#0866b8);color:white}.secondary{border:1px solid #2c506e;background:#0c2033;color:#eaf4ff}.danger{border:1px solid #6c3338;background:#2b1215;color:#ffb7bc}
-.page{display:none}.page.active{display:block}
-.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);background:#040a11f2;border-top:1px solid #24445f;padding:7px 7px calc(7px + env(safe-area-inset-bottom));z-index:40}.tab{border:0;background:none;color:#72899e;padding:8px 3px;font-size:10px}.tab.active{color:#4ac8ff}
-.exercise{background:#081827;border:1px solid #23445f;border-radius:12px;padding:11px;margin-bottom:8px}.exhead{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}.exname{font-weight:900}.type{font-size:10px;border:1px solid #365e7c;border-radius:999px;padding:4px 7px;color:#9cddff}
-.setlabels{display:grid;grid-template-columns:28px 1fr 1fr 34px;gap:6px;margin:2px 0 0;color:#91a5b8;font-size:10px;text-align:center}.setrow{display:grid;grid-template-columns:28px 1fr 1fr 34px;gap:6px;align-items:center;margin-top:6px}.unitfield{position:relative}.unitfield input{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:9px 36px 9px 9px}.unitfield .unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:#91a5b8;pointer-events:none}.check{width:25px;height:25px;accent-color:#19a6ff}.record{font-size:11px;color:#f2c96c;margin-top:6px}
-.editor{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;margin-bottom:6px}.editor input,.muscleSel{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:8px}.editrow{display:flex;gap:6px;margin-bottom:10px}
-.overlay{display:none;position:fixed;inset:0;background:#010409ed;z-index:90;align-items:center;justify-content:center;padding:18px}.overlay.show{display:flex}.modal{width:min(450px,100%);max-height:88vh;overflow:auto}.result{text-align:center}.resultExp{font-size:40px;color:#ffd15e;font-weight:1000}.damage{font-size:29px;color:#ffdf75;font-weight:1000;margin:5px 0}.loot{font-size:58px;margin:7px}
-.reviewRow{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;padding:8px 0;border-bottom:1px solid #193349;font-size:12px}.reviewRow b{font-size:12px}
-.note{padding:10px;border:1px solid #294c68;background:#071522;border-radius:10px;font-size:12px;color:#b9cad8}.historyItem{padding:10px 0;border-bottom:1px solid #1a344a}.historyItem:last-child{border:0}
-.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%) translateY(-75px);z-index:100;background:#071726;border:1px solid #55c9ff;color:white;padding:10px 14px;border-radius:10px;transition:.25s;font-weight:800;text-align:center;max-width:90%}.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ===== IRON QUEST battle / level-up presentation ===== */
-.battleOverlay{display:none;position:fixed;inset:0;z-index:120;background:radial-gradient(circle at 50% 38%,#14243a 0,#03060b 72%);overflow:hidden;color:#fff}
-.battleOverlay.show{display:block}
-.battleStage{position:absolute;inset:0;max-width:520px;margin:auto;overflow:hidden}
-.battleTop{position:absolute;top:max(18px,env(safe-area-inset-top));left:18px;right:18px;z-index:5}
-.battleTitle{text-align:center;font-weight:1000;letter-spacing:.16em;color:#f0cd75;font-size:14px}
-.battleEnemyName{text-align:center;font-size:25px;font-weight:1000;margin-top:6px}
-.battleArena{position:absolute;left:0;right:0;top:105px;bottom:205px;overflow:hidden;background:
- radial-gradient(circle at 68% 42%,#57201855,transparent 27%),
- linear-gradient(to top,#03060b 0,#07101b 48%,#101725 100%)}
-.battleArena:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 44%,#ffffff08 49%,transparent 54%)}
-.fighter{position:absolute;bottom:28px;transition:transform .22s ease,filter .15s ease,opacity .25s}
-.fighter img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 15px 13px #000b)}
-.playerFighter{width:46%;height:62%;left:-2%;transform:translateX(-8%) scale(.92);transform-origin:bottom center}
-.enemyFighter{width:58%;height:78%;right:-4%;transform-origin:bottom center}
-.playerFighter.attack{transform:translateX(58%) translateY(-3%) scale(1.04)}
-.playerFighter.recoil{transform:translateX(-5%) scale(.92)}
-.enemyFighter.hit{animation:enemyHit .42s ease}
-.enemyFighter.criticalHit{animation:criticalHit .58s ease}
-@keyframes enemyHit{0%,100%{transform:translateX(0)}25%{transform:translateX(13px) rotate(1deg);filter:brightness(1.8)}55%{transform:translateX(-10px) rotate(-1deg);filter:brightness(1.4)}}
-@keyframes criticalHit{0%,100%{transform:scale(1)}18%{transform:translateX(20px) scale(1.03);filter:brightness(2.5)}38%{transform:translateX(-18px) scale(.97)}58%{transform:translateX(14px) scale(1.02);filter:hue-rotate(-25deg) brightness(1.9)}}
-.slashFx{position:absolute;z-index:4;left:45%;top:30%;width:8px;height:230px;border-radius:99px;background:linear-gradient(#fff,#ffd44f 45%,#ff6a29);box-shadow:0 0 16px #fff,0 0 40px #ff9f27;opacity:0;transform:rotate(48deg) scaleY(.15)}
-.slashFx.fire{animation:slash .32s ease-out}
-@keyframes slash{0%{opacity:0;transform:rotate(48deg) scaleY(.12)}25%{opacity:1}100%{opacity:0;transform:rotate(48deg) scaleY(1.25)}}
-.screenFlash{position:absolute;inset:0;z-index:3;background:#fff;opacity:0;pointer-events:none}
-.screenFlash.fire{animation:flashBattle .32s ease-out}
-@keyframes flashBattle{0%{opacity:0}18%{opacity:.72}100%{opacity:0}}
-.damagePop{position:absolute;z-index:7;left:50%;top:43%;transform:translate(-50%,-50%) scale(.55);text-align:center;opacity:0;white-space:nowrap}
-.damagePop.show{animation:damagePop .85s cubic-bezier(.2,.8,.2,1)}
-.damageType{font-size:18px;font-weight:1000;letter-spacing:.12em}
-.damageNumber{font-size:54px;line-height:.9;font-weight:1000;text-shadow:0 4px 0 #4c1600,0 0 18px currentColor}
-.damagePop.normal{color:#f4f7fb}.damagePop.power{color:#73d4ff}.damagePop.critical{color:#ffd34f}
-@keyframes damagePop{0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}25%{opacity:1;transform:translate(-50%,-56%) scale(1.15)}70%{opacity:1;transform:translate(-50%,-62%) scale(1)}100%{opacity:0;transform:translate(-50%,-76%) scale(.92)}}
-.battleHud{position:absolute;left:18px;right:18px;bottom:95px;z-index:6}
-.battleHpLabels{display:flex;justify-content:space-between;align-items:end;margin-bottom:7px}
-.battleHpName{font-size:19px;font-weight:900}.battleHpNum{font-size:13px;color:#9dafc1}
-.battleHpBar{height:14px;background:#03070c;border:1px solid #324a60;border-radius:999px;overflow:hidden}
-.battleHpFill{height:100%;background:linear-gradient(90deg,#ed3636,#ff7d3e);transition:width .8s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 14px #ff483c77}
-.battleMessage{height:44px;text-align:center;padding-top:12px;color:#a9bdcf;font-size:13px}
-.rewardPanel{display:none;position:absolute;z-index:10;left:20px;right:20px;top:50%;transform:translateY(-50%);padding:20px;background:linear-gradient(180deg,#10243a,#07121e);border:1px solid #bc8a32;border-radius:18px;text-align:center;box-shadow:0 24px 70px #000d}
-.rewardPanel.show{display:block;animation:panelIn .45s ease}
-@keyframes panelIn{from{opacity:0;transform:translateY(-44%) scale(.9)}to{opacity:1;transform:translateY(-50%) scale(1)}}
-.rewardTitle{font-size:27px;font-weight:1000;color:#ffd572}.rewardItems{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
-.rewardItem{border:1px solid #294d69;background:#071725;border-radius:12px;padding:10px 5px}.rewardIcon{font-size:31px}.rewardVal{font-weight:900;color:#f3d076;font-size:13px;margin-top:4px}
-.battleContinue{border:1px solid #4ac8ff;background:linear-gradient(#149eed,#0866b8);color:#fff;width:100%;border-radius:11px;padding:13px;font-weight:900}
-.levelOverlay{display:none;position:fixed;inset:0;z-index:140;background:radial-gradient(circle at 50% 45%,#58461b 0,#111729 34%,#020509 75%);align-items:center;justify-content:center;padding:22px;color:#fff}
-.levelOverlay.show{display:flex;animation:levelBg .8s ease}
-@keyframes levelBg{0%{filter:brightness(3)}100%{filter:brightness(1)}}
-.levelRays{position:absolute;width:430px;height:430px;border-radius:50%;background:repeating-conic-gradient(from 0deg,#ffd86600 0 8deg,#ffd86622 8deg 11deg);animation:spin 12s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.levelCard{position:relative;z-index:2;text-align:center;width:min(420px,100%)}
-.levelKicker{color:#f4cf70;letter-spacing:.25em;font-weight:900}.levelMain{font-size:48px;font-weight:1000;color:#ffe28c;text-shadow:0 0 25px #ffbb36;margin:7px 0}
-.levelJump{font-size:22px;font-weight:900}.levelChar{height:260px;margin:10px auto}.levelChar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 16px #000)}
-.levelStats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:13px 0}.levelStat{background:#081827;border:1px solid #41617a;border-radius:11px;padding:10px}.levelStat b{display:block;color:#67d4ff;font-size:19px}
-.levelUnlock{background:#241c0b;border:1px solid #9a7529;border-radius:12px;padding:10px;color:#f3d27d;margin-bottom:12px}
-
-
-/* ===== v7 combat / equipment / shop ===== */
-.combatStats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.combatStat{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px;text-align:center}.combatStat b{display:block;color:#f2cc6e;font-size:16px}.warn{color:#ffbd5b}.good{color:#68d69b}.enemyMeta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.metaBox{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.gearSlots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gearSlot{background:#07121f;border:1px solid #294c68;border-radius:12px;padding:9px;min-height:92px}.gearIcon{font-size:29px;line-height:1.1}.gearName{font-weight:900;font-size:12px;margin-top:5px}.rarity-Common{color:#c3ccd5}.rarity-Uncommon{color:#68d69b}.rarity-Rare{color:#55c9ff}.rarity-Epic{color:#be7cff}.rarity-Legendary{color:#ffd45c}.shopTabs{display:flex;gap:5px;overflow:auto;padding-bottom:5px}.shopTab{white-space:nowrap;border:1px solid #294c68;background:#071522;color:#a8bac9;border-radius:999px;padding:7px 10px;font-size:11px}.shopTab.active{color:#ffd45c;border-color:#806322;background:#17160d}.shopItem{display:grid;grid-template-columns:44px 1fr auto;gap:9px;align-items:center;background:#07121f;border:1px solid #203e58;border-radius:11px;padding:9px;margin-top:7px}.shopItem .gearIcon{font-size:30px}.shopItem button{border:1px solid #386384;background:#0d2740;color:#eaf5ff;border-radius:8px;padding:7px 9px;font-size:11px;font-weight:800}.shopItem button:disabled{opacity:.45}.equipBtn{width:100%;margin-top:6px;border:1px solid #315775;background:#0a2034;color:#dceeff;border-radius:8px;padding:7px;font-size:11px}.upgradeBox{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.miniDivider{height:1px;background:#1c3850;margin:10px 0}.playerHpFill{height:100%;background:linear-gradient(90deg,#2cb86a,#7bea96);transition:width .45s ease;box-shadow:0 0 14px #43d47a66}.enemyAttackFx{position:absolute;z-index:4;right:42%;top:34%;width:8px;height:220px;border-radius:99px;background:linear-gradient(#fff,#ff7965 45%,#b51e1e);box-shadow:0 0 16px #fff,0 0 40px #ff3c2b;opacity:0;transform:rotate(-48deg) scaleY(.15)}.enemyAttackFx.fire{animation:slash .32s ease-out}.enemyFighter.attackEnemy{transform:translateX(-46%) translateY(-2%) scale(1.04)}.playerFighter.hitPlayer{animation:playerHit .42s ease}@keyframes playerHit{0%,100%{filter:none}25%{transform:translateX(-12px) rotate(-1deg);filter:brightness(2)}55%{transform:translateX(8px) rotate(1deg);filter:brightness(1.3)}}.battlePlayerHud{position:absolute;left:18px;right:18px;bottom:145px;z-index:6}.battleEnemyHud{position:absolute;left:18px;right:18px;bottom:82px;z-index:6}.battleMessage{position:absolute;left:18px;right:18px;bottom:26px;height:auto;padding-top:0}.battleHud{display:none}.defeatPanel{border-color:#8b3434}.defeatPanel .rewardTitle{color:#ff625b}.battleStartBtn{margin-top:10px}.recommend{font-size:12px;color:#d2dfeb;margin-top:7px}.statusLegend{font-size:11px;color:#9fb2c3;line-height:1.55}.statusLegend b{color:#e9bb54}
-
-</style>
-</head>
-<body>
-<div id="toast" class="toast"></div>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050a11"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="v7.css"><title>IRON QUEST</title></head><body><div id="toast" class="toast"></div>
 <div class="app">
 <header>
  <div><div class="logo">IRON QUEST</div><div class="tag">TRAIN YOUR BODY. LEVEL UP YOUR LIFE.</div></div>
@@ -129,6 +20,8 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
    <div class="stat"><span class="small">装備Tier</span><b id="gearTier">1</b></div>
    <div class="stat"><span class="small">GOLD</span><b id="goldText">0</b></div>
   </div>
+  <div id="combatStats" class="combatStats"></div>
+  <div class="bpPanel"><div><div class="small">BATTLE POINT</div><b id="bpText">BP 5 / 5</b></div><div style="text-align:right"><div class="small">次の自然回復</div><b id="bpNextText">MAX</b></div></div>
  </div>
  <div class="card section"><h3>筋肉別ステータス</h3><div id="muscleGrid" class="grid2"></div></div>
  <div class="card section">
@@ -136,7 +29,9 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
   <div class="enemyVisual"><img id="enemyImg" src="enemy.jpg" alt="enemy"></div>
   <div class="row between"><b id="enemyName"></b><span class="small" id="enemyHpText"></span></div>
   <div class="bar hp"><div id="enemyHpFill"></div></div>
-  <div style="height:10px"></div><button class="primary" data-go="train">修行に出る</button>
+  <div class="enemyMeta"><div class="metaBox"><span>推奨Lv</span><b id="enemyRecLv">Lv.1</b></div><div class="metaBox"><span>推奨戦闘力</span><b id="enemyRecPower">0</b></div></div>
+  <div id="homeRisk" class="risk good"></div>
+  <div class="btnrow"><button class="secondary" data-go="train">修行に出る</button><button class="primary" data-go="battle">バトルに挑戦</button></div>
  </div>
 </section>
 
@@ -148,27 +43,25 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 
 <section id="battle" class="page">
  <div class="card">
-  <div class="small">BATTLE</div><div class="row between"><h2 style="margin:2px 0">討伐挑戦</h2><span id="battleStageBadge" class="badge">STAGE 1</span></div>
-  <div class="enemyVisual"><img id="battleEnemyImg" src="enemy_goblin.jpg" alt="boss"></div>
+  <div class="small">BATTLE</div><h2 style="margin:2px 0">実力試験</h2>
+  <div class="bpBattleBar"><b id="battleBpText">BP 5 / 5</b><span id="battleBpNext" class="small">自然回復 MAX</span></div>
+  <div class="small" style="margin-top:10px">対戦相手を選択</div><div id="enemySelector" class="enemySelector"></div>
+  <div class="enemyVisual"><img id="battleEnemyImg" src="enemy_goblin.jpg" alt="enemy"></div>
   <div class="row between"><b id="battleEnemy"></b><span class="small" id="battleHp"></span></div>
   <div class="bar hp"><div id="battleHpFill"></div></div>
-  <div class="enemyMeta">
-   <div class="metaBox"><div class="small">推奨Lv</div><b id="recommendLv">Lv.1</b></div>
-   <div class="metaBox"><div class="small">推奨戦闘力</div><b id="recommendPower">200</b></div>
-  </div>
-  <div id="battleRecommend" class="recommend"></div>
-  <button id="challengeBtn" class="primary battleStartBtn">バトルに挑戦する</button>
-  <div class="note section">開始すると勝敗が決まるまで自動戦闘。推奨値未満でも挑戦できます。敗北時は所持GOLDの10%を失います。</div>
+  <div class="enemyMeta"><div class="metaBox"><span>推奨Lv</span><b id="battleRecLv"></b></div><div class="metaBox"><span>推奨戦闘力</span><b id="battleRecPower"></b></div></div>
+  <div id="battleRisk" class="risk good"></div>
+  <div id="battleVsStats" class="note section"></div>
+  <div style="height:10px"></div><button class="primary" id="challengeBtn">BP 1を使って挑戦</button>
+  <div class="shopNote">※ 1戦につきBP 1消費。撃破済みの敵にも再戦可能です。勝てば報酬、敗北すると所持GOLDの10%を失います。</div>
  </div>
 </section>
 
 <section id="gear" class="page">
- <div class="card"><div class="small">CHARACTER</div><h2 style="margin:2px 0">装備・進化</h2><div class="hero"><img id="gearImg" src="hero_lv1.jpg" alt="character"></div><div id="gearDesc"></div><div id="combatStats" class="combatStats"></div></div>
- <div class="card section"><div class="row between"><h3 style="margin:0">装備中</h3><span class="badge" id="gearGold">0 GOLD</span></div><div id="gearSlots" class="gearSlots" style="margin-top:10px"></div></div>
- <div class="card section"><h3>装備強化</h3><div id="upgradePanel"></div></div>
- <div class="card section"><div class="row between"><h3 style="margin:0">ショップ</h3><span class="small">GOLDで購入</span></div><div id="shopTabs" class="shopTabs" style="margin-top:10px"></div><div id="shopList"></div></div>
+ <div class="card"><div class="small">CHARACTER</div><h2 style="margin:2px 0">装備・進化</h2><div class="hero"><img id="gearImg" src="hero_lv1.jpg" alt="character"></div><div id="gearDesc"></div><div id="gearSummary" class="gearSummary"></div></div>
+ <div class="card section"><div class="row between"><h3 style="margin:0">装備中</h3><span class="badge" id="gearTierBadge">Tier 1</span></div><div style="height:9px"></div><div id="equippedGrid" class="slotGrid"></div></div>
  <div class="card section"><h3>次の進化</h3><div id="evolutionText" class="note"></div></div>
- <div class="card section"><h3>ステータス効果</h3><div class="statusLegend"><b>STR</b> → ATK　／　<b>SHOULDER</b> → CRIT　／　<b>BACK</b> → DEF　／　<b>CORE</b> → HP・DEF　／　<b>LEG</b> → HP・ATK</div></div>
+ <div class="card section"><div class="shopHead"><div><div class="small">SHOP</div><h3 style="margin:2px 0">装備ショップ</h3></div><div class="shopGold">🪙 <span id="shopGoldText">0</span> G</div></div><div id="shopFilters" class="shopFilters"></div><div id="shopList" class="shopList"></div></div>
 </section>
 
 <section id="settings" class="page">
@@ -200,10 +93,10 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
  <div class="card modal result">
   <div class="small">TRAINING COMPLETE</div>
   <div class="resultExp" id="resultTitle"></div>
-  <div class="damage" id="damageText"></div>
+  <div class="damage" id="damageText" style="display:none"></div>
   <div id="resultText"></div>
   <div class="loot" id="loot"></div>
-  <button class="primary" id="closeResult">報酬を受け取る</button>
+  <button class="primary" id="closeResult">修行を終える</button>
  </div>
 </div>
 
@@ -217,25 +110,24 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
     <div class="battleArena">
       <div id="animPlayer" class="fighter playerFighter"><img id="animPlayerImg" src="stage_1.jpg" alt="player"></div>
       <div id="animEnemy" class="fighter enemyFighter"><img id="animEnemyImg" src="enemy.jpg" alt="enemy"></div>
-      <div id="slashFx" class="slashFx"></div><div id="enemyAttackFx" class="enemyAttackFx"></div>
+      <div id="slashFx" class="slashFx"></div>
       <div id="screenFlash" class="screenFlash"></div>
       <div id="damagePop" class="damagePop normal">
         <div id="damageType" class="damageType">NORMAL</div>
         <div id="damageNumber" class="damageNumber">0</div>
       </div>
     </div>
-    <div class="battlePlayerHud">
-      <div class="battleHpLabels"><div class="battleHpName">TAKU</div><div id="animPlayerHpText" class="battleHpNum">0 / 0</div></div>
-      <div class="battleHpBar"><div id="animPlayerHpFill" class="playerHpFill"></div></div>
-    </div>
-    <div class="battleEnemyHud">
+    <div class="battleHud">
       <div class="battleHpLabels"><div id="animHpName" class="battleHpName">ENEMY</div><div id="animHpText" class="battleHpNum">0 / 0</div></div>
       <div class="battleHpBar"><div id="animHpFill" class="battleHpFill"></div></div>
+      <div class="battleHpLabels" style="margin-top:9px"><div class="battleHpName">TAKU</div><div id="animPlayerHpText" class="battleHpNum">0 / 0</div></div>
+      <div class="playerHpBar"><div id="animPlayerHpFill" class="playerHpFill"></div></div>
+      <div id="battleRound" class="battleRound">TURN 1</div>
+      <div id="battleMessage" class="battleMessage">バトル開始...</div>
     </div>
-    <div id="battleMessage" class="battleMessage">戦闘開始...</div>
     <div id="rewardPanel" class="rewardPanel">
       <div id="rewardTitle" class="rewardTitle">VICTORY!</div>
-      <div class="small">討伐報酬</div>
+      <div id="battleResultSub" class="small">討伐報酬</div>
       <div class="rewardItems">
         <div class="rewardItem"><div class="rewardIcon">✨</div><div class="small">EXP</div><div id="rewardExp" class="rewardVal">+0</div></div>
         <div class="rewardItem"><div class="rewardIcon">🪙</div><div class="small">GOLD</div><div id="rewardGold" class="rewardVal">+0</div></div>
@@ -260,198 +152,4 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
     <div id="levelUnlock" class="levelUnlock">新たな力を獲得した</div>
     <button id="levelContinue" class="battleContinue">冒険を続ける</button>
   </div>
-</div>
-
-<script>
-(function(){
-"use strict";
-const defaultMenu=[
-{name:"オーバーヘッドプレス",muscle:"SHOULDER",sets:[{kg:35,reps:15},{kg:35,reps:15}]},
-{name:"ラットプルダウン",muscle:"BACK",sets:[{kg:35,reps:15},{kg:45,reps:15}]},
-{name:"チェストプレス",muscle:"STR",sets:[{kg:25,reps:15},{kg:25,reps:15}]},
-{name:"ペクトラル",muscle:"STR",sets:[{kg:15,reps:15},{kg:15,reps:15}]},
-{name:"アブドミナルクランチ",muscle:"CORE",sets:[{kg:25,reps:15},{kg:25,reps:15}]},
-{name:"ローバック",muscle:"BACK",sets:[{kg:43,reps:15},{kg:43,reps:15}]},
-{name:"ロータリートーソー",muscle:"CORE",sets:[{kg:20,reps:15},{kg:20,reps:15}]},
-{name:"レッグプレス",muscle:"LEG",sets:[{kg:41,reps:20},{kg:41,reps:20}]},
-{name:"アダクター",muscle:"LEG",sets:[{kg:15,reps:20}]}
-];
-const enemies=[
-{name:"ゴブリン",min:1,max:5,hp:350,atk:180,def:35,gold:60,exp:15,recLv:1,recPower:200,lv:"推奨 Lv.1",img:"enemy_goblin.jpg",drop:"leather_gloves"},
-{name:"スケルトン",min:6,max:10,hp:700,atk:360,def:60,gold:120,exp:25,recLv:6,recPower:1050,lv:"推奨 Lv.6",img:"enemy_skeleton.jpg",drop:"iron_helm"},
-{name:"オーク",min:11,max:20,hp:1500,atk:520,def:100,gold:240,exp:45,recLv:11,recPower:1600,lv:"推奨 Lv.11",img:"enemy_orc.jpg",drop:"steel_sword"},
-{name:"オーガ",min:21,max:35,hp:2800,atk:780,def:160,gold:480,exp:80,recLv:21,recPower:2300,lv:"推奨 Lv.21",img:"enemy_ogre.jpg",drop:"black_armor"},
-{name:"ワイバーン",min:36,max:60,hp:6500,atk:1180,def:260,gold:900,exp:140,recLv:36,recPower:3600,lv:"推奨 Lv.36",img:"enemy_wyvern.jpg",drop:"dragon_greaves"},
-{name:"ドラゴン",min:61,max:85,hp:15000,atk:1850,def:420,gold:1800,exp:220,recLv:61,recPower:5800,lv:"推奨 Lv.61",img:"enemy_dragon.jpg",drop:"dragon_sword"},
-{name:"魔王 / 古竜",min:86,max:999,hp:40000,atk:2900,def:700,gold:4000,exp:400,recLv:86,recPower:8500,lv:"推奨 Lv.86",img:"enemy_final.jpg",drop:"mythic_sword"}
-];
-const stages=[
-{lv:1,title:"冒険者",desc:"初期装備。ここから修行が始まる。",img:"hero_lv1.jpg",tier:1},
-{lv:3,title:"木剣士",desc:"木剣を獲得。最初の進化。",img:"hero_lv3.jpg",tier:2},
-{lv:5,title:"革装戦士",desc:"革装備を獲得し、防具が強化。",img:"hero_lv5.jpg",tier:2},
-{lv:10,title:"蒼刃兵",desc:"蒼い武装を解放。戦士として覚醒。",img:"hero_lv10.jpg",tier:3},
-{lv:20,title:"鉄刃剣士",desc:"本格装備を獲得し、戦闘力が上昇。",img:"hero_lv20.jpg",tier:4},
-{lv:40,title:"重装隊長",desc:"重装備と隊長級の威圧感を獲得。",img:"hero_lv40.jpg",tier:5},
-{lv:70,title:"英雄級",desc:"英雄級の力とオーラを解放。",img:"hero_lv70.jpg",tier:6},
-{lv:100,title:"覇者",desc:"最終覚醒。IRON QUESTの頂点。",img:"hero_lv100.jpg",tier:7}
-];
-const equipment=[
-{id:"bare_hands",slot:"weapon",name:"素手",icon:"✊",rarity:"Common",price:0,atk:0},
-{id:"wood_sword",slot:"weapon",name:"木剣",icon:"🗡️",rarity:"Common",price:100,atk:8},
-{id:"iron_sword",slot:"weapon",name:"鉄剣",icon:"⚔️",rarity:"Uncommon",price:300,atk:18},
-{id:"steel_sword",slot:"weapon",name:"鋼鉄剣",icon:"⚔️",rarity:"Rare",price:700,atk:32},
-{id:"magic_sword",slot:"weapon",name:"魔剣",icon:"🗡️",rarity:"Epic",price:1500,atk:52,crit:3},
-{id:"dragon_sword",slot:"weapon",name:"竜剣",icon:"🐉",rarity:"Epic",price:3000,atk:80,crit:5},
-{id:"mythic_sword",slot:"weapon",name:"神話剣",icon:"🔥",rarity:"Legendary",price:6000,atk:120,crit:8},
-{id:"cloth_hood",slot:"head",name:"布のフード",icon:"🥷",rarity:"Common",price:0,def:3,hp:15},
-{id:"leather_helm",slot:"head",name:"革の兜",icon:"⛑️",rarity:"Common",price:180,def:10,hp:40},
-{id:"iron_helm",slot:"head",name:"鉄兜",icon:"🪖",rarity:"Uncommon",price:450,def:18,hp:70},
-{id:"black_helm",slot:"head",name:"黒鋼兜",icon:"🪖",rarity:"Rare",price:1000,def:30,hp:120},
-{id:"dragon_helm",slot:"head",name:"竜角兜",icon:"🐲",rarity:"Epic",price:2200,def:50,hp:180},
-{id:"cloth_armor",slot:"body",name:"布の服",icon:"🥋",rarity:"Common",price:0,def:5,hp:30},
-{id:"leather_armor",slot:"body",name:"革鎧",icon:"🦺",rarity:"Common",price:250,def:18,hp:80},
-{id:"iron_armor",slot:"body",name:"鉄鎧",icon:"🛡️",rarity:"Uncommon",price:650,def:30,hp:140},
-{id:"black_armor",slot:"body",name:"黒鋼鎧",icon:"🛡️",rarity:"Rare",price:1500,def:50,hp:220},
-{id:"dragon_armor",slot:"body",name:"竜鎧",icon:"🐉",rarity:"Epic",price:3400,def:80,hp:320},
-{id:"cloth_gloves",slot:"arms",name:"布手袋",icon:"🧤",rarity:"Common",price:0,def:2},
-{id:"leather_gloves",slot:"arms",name:"革手甲",icon:"🧤",rarity:"Common",price:180,atk:4,def:4},
-{id:"iron_gloves",slot:"arms",name:"鉄手甲",icon:"🥊",rarity:"Uncommon",price:500,atk:8,def:8},
-{id:"black_gloves",slot:"arms",name:"黒鋼手甲",icon:"🥊",rarity:"Rare",price:1100,atk:14,def:14},
-{id:"dragon_gloves",slot:"arms",name:"竜爪手甲",icon:"🐲",rarity:"Epic",price:2400,atk:22,def:18},
-{id:"cloth_pants",slot:"legs",name:"布の脚衣",icon:"👖",rarity:"Common",price:0,hp:20,def:2},
-{id:"leather_greaves",slot:"legs",name:"革脚甲",icon:"🥾",rarity:"Common",price:180,hp:30,def:5},
-{id:"iron_greaves",slot:"legs",name:"鉄脚甲",icon:"🥾",rarity:"Uncommon",price:500,hp:60,def:10},
-{id:"black_greaves",slot:"legs",name:"黒鋼脚甲",icon:"🥾",rarity:"Rare",price:1200,hp:110,def:18},
-{id:"dragon_greaves",slot:"legs",name:"竜脚甲",icon:"🐉",rarity:"Epic",price:2600,hp:180,def:30},
-{id:"no_accessory",slot:"accessory",name:"なし",icon:"◯",rarity:"Common",price:0},
-{id:"power_ring",slot:"accessory",name:"力の指輪",icon:"💍",rarity:"Uncommon",price:450,atk:10},
-{id:"guard_charm",slot:"accessory",name:"守りの護符",icon:"📿",rarity:"Uncommon",price:450,def:10},
-{id:"life_necklace",slot:"accessory",name:"命の首飾り",icon:"📿",rarity:"Rare",price:700,hp:100},
-{id:"crit_ring",slot:"accessory",name:"会心の指輪",icon:"💍",rarity:"Rare",price:900,crit:4},
-{id:"dragon_emblem",slot:"accessory",name:"竜の紋章",icon:"🔶",rarity:"Legendary",price:3200,atk:20,def:10,crit:2}
-];
-const slotLabels={weapon:"武器",head:"頭",body:"胴",arms:"腕",legs:"脚",accessory:"アクセ"};
-function itemById(id){return equipment.find(x=>x.id===id)||equipment[0]}
-function currentEnemy(){return enemies[Math.max(0,Math.min(enemies.length-1,state.enemyTier||0))]}
-const initial={level:1,xp:0,totalWorkouts:0,kills:0,enemyTier:0,enemyHp:350,
-muscles:{STR:{lv:1,xp:0},SHOULDER:{lv:1,xp:0},BACK:{lv:1,xp:0},CORE:{lv:1,xp:0},LEG:{lv:1,xp:0}},
-menu:defaultMenu,records:{},history:[],gold:0,
-inventory:["bare_hands","cloth_hood","cloth_armor","cloth_gloves","cloth_pants","no_accessory"],
-equipped:{weapon:"bare_hands",head:"cloth_hood",body:"cloth_armor",arms:"cloth_gloves",legs:"cloth_pants",accessory:"no_accessory"},upgrades:{}};
-const clone=x=>JSON.parse(JSON.stringify(x));
-function load(){try{const x=JSON.parse(localStorage.getItem("ironQuestV4")),n=clone(initial);if(!x)return n;Object.assign(n,x);n.muscles=Object.assign(n.muscles,x.muscles||{});n.equipped=Object.assign(n.equipped,x.equipped||{});n.inventory=Array.from(new Set([...(n.inventory||[]),...((x.inventory)||[])]));n.upgrades=Object.assign({},x.upgrades||{});n.enemyTier=Math.max(0,Math.min(enemies.length-1,Number.isFinite(x.enemyTier)?x.enemyTier:0));n.enemyHp=enemies[n.enemyTier].hp;return n}catch(e){return clone(initial)}}
-let state=load(),audioCtx=null,bgmTimer=null,bgmOn=false,shopFilter="weapon",battleRunning=false;
-function save(){try{localStorage.setItem("ironQuestV4",JSON.stringify(state))}catch(e){}}
-function xpNeed(lv){return 100+Math.floor((lv-1)*18)}
-function stage(){let s=stages[0];stages.forEach(v=>{if(state.level>=v.lv)s=v});return s}
-function itemBonus(item){const u=state.upgrades[item.id]||0,m=1+u*.10;return {hp:Math.round((item.hp||0)*m),atk:Math.round((item.atk||0)*m),def:Math.round((item.def||0)*m),crit:(item.crit||0)+u*.25}}
-function combat(){const m=state.muscles;let hp=700+state.level*70+m.CORE.lv*65+m.LEG.lv*45,atk=60+state.level*14+m.STR.lv*28+m.LEG.lv*8,def=35+state.level*8+m.BACK.lv*18+m.CORE.lv*10,crit=5+m.SHOULDER.lv*1.5;Object.values(state.equipped).forEach(id=>{const b=itemBonus(itemById(id));hp+=b.hp;atk+=b.atk;def+=b.def;crit+=b.crit});crit=Math.min(45,crit);return {hp:Math.round(hp),atk:Math.round(atk),def:Math.round(def),crit:+crit.toFixed(1)}}
-function power(){const c=combat();return Math.round(c.hp*.22+c.atk*2+c.def*1.4+c.crit*12)}
-function toast(msg){const e=document.getElementById("toast");e.textContent=msg;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1600)}
-function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.page===id));if(id==="train")renderTraining();if(id==="settings")renderEditor();renderAll()}
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
-function renderAll(){
- const st=stage(),en=currentEnemy(),c=combat();state.enemyHp=en.hp;
- ["heroImg","gearImg"].forEach(id=>document.getElementById(id).src=st.img);
- ["enemyImg","battleEnemyImg","animEnemyImg"].forEach(id=>{const el=document.getElementById(id);if(el)el.src=en.img});
- document.getElementById("titleBadge").textContent=st.title;document.getElementById("formText").textContent=st.title;
- document.getElementById("levelText").textContent="Lv."+state.level;document.getElementById("powerText").textContent=power().toLocaleString();
- document.getElementById("xpText").textContent=state.xp+" / "+xpNeed(state.level);document.getElementById("xpFill").style.width=Math.min(100,state.xp/xpNeed(state.level)*100)+"%";
- document.getElementById("totalWorkouts").textContent=state.totalWorkouts;document.getElementById("kills").textContent=state.kills;document.getElementById("goldText").textContent=(state.gold||0).toLocaleString();document.getElementById("gearTier").textContent=st.tier;
- const labels={STR:"STR 胸・腕",SHOULDER:"SHOULDER 肩",BACK:"BACK 背中",CORE:"CORE 体幹",LEG:"LEG 脚"};
- document.getElementById("muscleGrid").innerHTML=Object.entries(state.muscles).map(([k,m])=>'<div class="muscle"><b>'+labels[k]+'</b><span>Lv.'+m.lv+'</span><div class="small">EXP '+m.xp+' / 100</div></div>').join("");
- ["enemyName","battleEnemy"].forEach(id=>document.getElementById(id).textContent=en.name);
- document.getElementById("enemyLv").textContent="STAGE "+(state.enemyTier+1);document.getElementById("enemyHpText").textContent=en.hp.toLocaleString()+" HP";document.getElementById("battleHp").textContent=en.hp.toLocaleString()+" HP";
- document.getElementById("enemyHpFill").style.width="100%";document.getElementById("battleHpFill").style.width="100%";
- document.getElementById("battleStageBadge").textContent="STAGE "+(state.enemyTier+1);document.getElementById("recommendLv").textContent="Lv."+en.recLv;document.getElementById("recommendPower").textContent=en.recPower.toLocaleString();
- const diff=power()-en.recPower;document.getElementById("battleRecommend").innerHTML=diff>=0?'<span class="good">推奨戦闘力を '+diff.toLocaleString()+' 上回っています</span>':'<span class="warn">⚠ 推奨戦闘力まであと '+Math.abs(diff).toLocaleString()+'</span>';
- document.getElementById("gearDesc").innerHTML='<b style="color:#e9bb54">'+st.title+'</b><div class="small">'+st.desc+'</div>';
- document.getElementById("combatStats").innerHTML=[['HP',c.hp],['ATK',c.atk],['DEF',c.def],['CRIT',c.crit+'%']].map(x=>'<div class="combatStat"><span class="small">'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
- document.getElementById("gearGold").textContent=(state.gold||0).toLocaleString()+" GOLD";
- const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'Lv.100 最終覚醒済み';
- renderGear();renderShop();renderHistory();save();
-}
-function renderTraining(){
- const root=document.getElementById("exerciseList");root.innerHTML="";
- state.menu.forEach(ex=>{
-  const box=document.createElement("div");box.className="exercise";
-  box.innerHTML='<div class="exhead"><div class="exname"></div><span class="type"></span></div><div class="setlabels"><span>SET</span><span>重量</span><span>回数</span><span>完了</span></div><div class="sets"></div>';
-  box.querySelector(".exname").textContent=ex.name;box.querySelector(".type").textContent=ex.muscle;
-  const sets=box.querySelector(".sets");
-  ex.sets.forEach((set,j)=>{
-   const r=document.createElement("div");r.className="setrow";r.innerHTML='<b>'+(j+1)+'</b><div class="unitfield"><input class="kg" inputmode="decimal"><span class="unit">kg</span></div><div class="unitfield"><input class="reps" inputmode="numeric"><span class="unit">回</span></div><input class="check" type="checkbox">';
-   const kg=r.querySelector(".kg"),reps=r.querySelector(".reps");kg.value=set.kg;reps.value=set.reps;
-   kg.addEventListener("change",()=>{set.kg=Number(kg.value)||0;save()});reps.addEventListener("change",()=>{set.reps=Number(reps.value)||0;save()});r.querySelector(".check").addEventListener("change",updateProgress);sets.appendChild(r);
-  });
-  if(state.records[ex.name]){const d=document.createElement("div");d.className="record";d.textContent="自己ベスト総負荷："+state.records[ex.name].toLocaleString()+"kg";box.appendChild(d)}
-  root.appendChild(box);
- });updateProgress();
-}
-function updateProgress(){const all=[...document.querySelectorAll("#exerciseList .check")],done=all.filter(x=>x.checked).length;document.getElementById("progressBadge").textContent=all.length?Math.round(done/all.length*100)+"%":"0%"}
-document.getElementById("reviewBtn").addEventListener("click",()=>{
- const checks=[...document.querySelectorAll("#exerciseList .check")];if(!checks.length||checks.some(x=>!x.checked)){toast("全セット完了後に確認できます");return}
- const root=document.getElementById("reviewList");root.innerHTML='<div class="reviewRow"><b>種目</b><b>重量</b><b>回数</b><b>SET</b></div>';
- state.menu.forEach(ex=>{const r=document.createElement("div");r.className="reviewRow";r.innerHTML='<b></b><span></span><span></span><span></span>';r.children[0].textContent=ex.name;r.children[1].textContent=ex.sets.map(s=>s.kg+"kg").join(" / ");r.children[2].textContent=ex.sets.map(s=>s.reps+"回").join(" / ");r.children[3].textContent=ex.sets.length;root.appendChild(r)});
- document.getElementById("reviewOverlay").classList.add("show");
-});
-document.getElementById("backToTrain").addEventListener("click",()=>document.getElementById("reviewOverlay").classList.remove("show"));
-document.getElementById("finalizeBtn").addEventListener("click",finalizeWorkout);
-
-const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-function attackClass(prs){
-  if(prs>=3)return {name:"CRITICAL!!",cls:"critical",mult:1.85};
-  if(prs>=1)return {name:"POWER!",cls:"power",mult:1.30};
-  return {name:"NORMAL",cls:"normal",mult:1.00};
-}
-async function showDamage(target,type,damage,isEnemy=false){
- const p=document.getElementById("animPlayer"),enemy=document.getElementById("animEnemy"),slash=document.getElementById(isEnemy?"enemyAttackFx":"slashFx"),flash=document.getElementById("screenFlash"),pop=document.getElementById("damagePop");
- if(isEnemy){enemy.classList.add("attackEnemy");await wait(160);slash.classList.add("fire");p.classList.add("hitPlayer");pop.style.left="34%";}else{p.classList.add("attack");await wait(160);slash.classList.add("fire");enemy.classList.add(type.cls==="critical"?"criticalHit":"hit");pop.style.left="57%";}
- flash.classList.add("fire");pop.className="damagePop "+type.cls+" show";document.getElementById("damageType").textContent=type.name;document.getElementById("damageNumber").textContent=damage.toLocaleString();if(type.cls==="critical")playSfx("win");else playSfx("hit");await wait(380);
- slash.classList.remove("fire");flash.classList.remove("fire");p.classList.remove("attack","hitPlayer");enemy.classList.remove("attackEnemy","hit","criticalHit");await wait(260);
-}
-function playerAttackType(c){const r=Math.random()*100;if(r<c.crit)return {name:"CRITICAL!",cls:"critical",mult:1.75};if(r<c.crit+22)return {name:"POWER!",cls:"power",mult:1.25};return {name:"NORMAL",cls:"normal",mult:1}}
-async function startBattle(){
- if(battleRunning)return;battleRunning=true;const ov=document.getElementById("battleOverlay"),st=stage(),en={...currentEnemy()},c=combat();let php=c.hp,ehp=en.hp,turn=1;
- document.getElementById("animPlayerImg").src=st.img;document.getElementById("animEnemyImg").src=en.img;document.getElementById("animEnemyName").textContent=en.name;document.getElementById("animHpName").textContent=en.name;document.getElementById("animPlayerHpText").textContent=php.toLocaleString()+" / "+c.hp.toLocaleString();document.getElementById("animHpText").textContent=ehp.toLocaleString()+" / "+en.hp.toLocaleString();document.getElementById("animPlayerHpFill").style.width="100%";document.getElementById("animHpFill").style.width="100%";document.getElementById("rewardPanel").classList.remove("show","defeatPanel");document.getElementById("battleMessage").textContent="戦闘開始！";ov.classList.add("show");ov.setAttribute("aria-hidden","false");await wait(700);
- while(php>0&&ehp>0&&turn<=30){
-   const t=playerAttackType(c),raw=Math.max(18,c.atk-en.def*.55),dmg=Math.max(1,Math.round(raw*t.mult*(.90+Math.random()*.20)));document.getElementById("battleMessage").textContent="TURN "+turn+"　TAKUの攻撃！";await showDamage("enemy",t,dmg,false);ehp=Math.max(0,ehp-dmg);document.getElementById("animHpFill").style.width=(ehp/en.hp*100)+"%";document.getElementById("animHpText").textContent=ehp.toLocaleString()+" / "+en.hp.toLocaleString();if(ehp<=0)break;await wait(280);
-   const et={name:"ENEMY",cls:"normal",mult:1},edmg=Math.max(8,Math.round(Math.max(14,en.atk-c.def*.5)*(.90+Math.random()*.20)));document.getElementById("battleMessage").textContent=en.name+"の反撃！";await showDamage("player",et,edmg,true);php=Math.max(0,php-edmg);document.getElementById("animPlayerHpFill").style.width=(php/c.hp*100)+"%";document.getElementById("animPlayerHpText").textContent=php.toLocaleString()+" / "+c.hp.toLocaleString();turn++;await wait(320);
- }
- const won=ehp<=0;let goldDelta=0,dropText="—",battleExp=0;if(won){state.kills++;goldDelta=en.gold;state.gold=(state.gold||0)+goldDelta;battleExp=en.exp;state.xp+=battleExp;while(state.xp>=xpNeed(state.level)){state.xp-=xpNeed(state.level);state.level++}if(Math.random()<.38&&en.drop){const it=itemById(en.drop);if(!state.inventory.includes(it.id)){state.inventory.push(it.id);dropText=it.name}else dropText="所持済み"}if(state.enemyTier<enemies.length-1)state.enemyTier++;playSfx("win");}else{goldDelta=Math.floor((state.gold||0)*.10);state.gold=Math.max(0,(state.gold||0)-goldDelta);}
- state.enemyHp=currentEnemy().hp;state.history.unshift({date:new Date().toLocaleDateString("ja-JP"),exp:battleExp,damage:0,prs:0,level:state.level,attack:won?"VICTORY":"DEFEAT"});state.history=state.history.slice(0,12);save();
- document.getElementById("rewardPanel").classList.toggle("defeatPanel",!won);document.getElementById("rewardTitle").textContent=won?"VICTORY!":"DEFEAT";document.getElementById("rewardExp").textContent=won?"+"+battleExp:"+0";document.getElementById("rewardGold").textContent=won?"+"+goldDelta:"-"+goldDelta;document.getElementById("rewardDrop").textContent=won?dropText:"再修行";document.getElementById("battleMessage").textContent=won?en.name+" を撃破！ 次の敵が解放された":"敗北…さらに修行して再挑戦しよう";document.getElementById("rewardPanel").classList.add("show");
- document.getElementById("battleContinue").onclick=()=>{document.getElementById("rewardPanel").classList.remove("show","defeatPanel");ov.classList.remove("show");ov.setAttribute("aria-hidden","true");battleRunning=false;renderAll();go(won?"home":"train")};
-}
-document.getElementById("challengeBtn").addEventListener("click",startBattle);
-async function playLevelSequence(data){
- if(data.newLv<=data.oldLv)return;const ov=document.getElementById("levelOverlay"),st=stage();document.getElementById("levelJump").textContent="Lv."+data.oldLv+" → Lv."+data.newLv;document.getElementById("levelCharImg").src=st.img;document.getElementById("levelPowerGain").textContent="+"+Math.max(0,data.powerAfter-data.powerBefore).toLocaleString();document.getElementById("levelMuscleGain").textContent=data.muscleUps.length+" UP";const oldStage=stages.slice().reverse().find(x=>x.lv<=data.oldLv)||stages[0],newStage=stage();document.getElementById("levelUnlock").textContent=newStage.title!==oldStage.title?"進化解放：「"+newStage.title+"」":(data.muscleUps.length?data.muscleUps.join(" / "):"基礎戦闘力が上昇した");ov.classList.add("show");ov.setAttribute("aria-hidden","false");playSfx("win");return new Promise(resolve=>{document.getElementById("levelContinue").onclick=()=>{ov.classList.remove("show");ov.setAttribute("aria-hidden","true");resolve()}})
-}
-async function finalizeWorkout(){
- document.getElementById("reviewOverlay").classList.remove("show");let earned=90,prs=0,gains={STR:0,SHOULDER:0,BACK:0,CORE:0,LEG:0};const powerBefore=power();
- state.menu.forEach(ex=>{const vol=ex.sets.reduce((a,s)=>a+(+s.kg||0)*(+s.reps||0),0),prev=state.records[ex.name]||0;let gain=10+Math.min(28,Math.round(vol/270));if(vol>prev){gain+=15;prs++;state.records[ex.name]=vol}gains[ex.muscle]+=gain;earned+=Math.round(gain*.45)});
- const ups=[];Object.entries(gains).forEach(([k,g])=>{const m=state.muscles[k];m.xp+=g;while(m.xp>=100){m.xp-=100;m.lv++;ups.push(k+" Lv."+m.lv)}});const oldLv=state.level;state.xp+=earned;while(state.xp>=xpNeed(state.level)){state.xp-=xpNeed(state.level);state.level++}state.totalWorkouts++;state.history.unshift({date:new Date().toLocaleDateString("ja-JP"),exp:earned,damage:0,prs,level:state.level,attack:"TRAINING"});state.history=state.history.slice(0,12);save();const powerAfter=power();renderAll();toast("修行完了：+"+earned+" EXP");await playLevelSequence({oldLv,newLv:state.level,powerBefore,powerAfter,muscleUps:ups});go("home");
-}
-function renderGear(){const root=document.getElementById("gearSlots");if(!root)return;root.innerHTML=Object.entries(slotLabels).map(([slot,label])=>{const it=itemById(state.equipped[slot]),u=state.upgrades[it.id]||0,b=itemBonus(it);const stat=[b.hp&&'HP +'+b.hp,b.atk&&'ATK +'+b.atk,b.def&&'DEF +'+b.def,b.crit&&'CRIT +'+b.crit.toFixed(1)+'%'].filter(Boolean).join(' / ')||'補正なし';return '<div class="gearSlot"><div class="small">'+label+'</div><div class="gearIcon">'+it.icon+'</div><div class="gearName rarity-'+it.rarity+'">'+it.name+(u?' +'+u:'')+'</div><div class="small">'+stat+'</div></div>'}).join('');renderUpgrade()}
-function renderUpgrade(){const root=document.getElementById("upgradePanel");if(!root)return;const id=state.equipped.weapon,it=itemById(id),u=state.upgrades[id]||0;if(it.price===0){root.innerHTML='<div class="note">購入した武器を装備すると強化できます。</div>';return}const cost=Math.max(80,Math.round(it.price*(.35+u*.15)));root.innerHTML='<div class="upgradeBox"><div><b>'+it.icon+' '+it.name+' '+(u?('+'+u):'')+'</b><div class="small">+1ごとに主要補正約10%UP / 最大+5</div></div><button id="upgradeBtn" class="iconbtn" '+(u>=5||state.gold<cost?'disabled':'')+'>'+(u>=5?'MAX':cost.toLocaleString()+'G 強化')+'</button></div>';const b=document.getElementById('upgradeBtn');if(b)b.onclick=()=>{if(u>=5||state.gold<cost)return;state.gold-=cost;state.upgrades[id]=u+1;save();renderAll();toast('装備を強化しました')}}
-function renderShop(){const tabs=document.getElementById("shopTabs"),list=document.getElementById("shopList");if(!tabs||!list)return;tabs.innerHTML=Object.entries(slotLabels).map(([k,v])=>'<button class="shopTab '+(shopFilter===k?'active':'')+'" data-shop="'+k+'">'+v+'</button>').join('');tabs.querySelectorAll('[data-shop]').forEach(b=>b.onclick=()=>{shopFilter=b.dataset.shop;renderShop()});list.innerHTML=equipment.filter(x=>x.slot===shopFilter&&x.price>0).map(it=>{const owned=state.inventory.includes(it.id),eq=state.equipped[it.slot]===it.id,b=itemBonus(it),stat=[b.hp&&'HP +'+b.hp,b.atk&&'ATK +'+b.atk,b.def&&'DEF +'+b.def,b.crit&&'CRIT +'+b.crit.toFixed(1)+'%'].filter(Boolean).join(' / ');return '<div class="shopItem"><div class="gearIcon">'+it.icon+'</div><div><b class="rarity-'+it.rarity+'">'+it.name+'</b><div class="small">'+stat+'</div><div class="small">'+it.rarity+'</div></div><button data-buy="'+it.id+'" '+((!owned&&state.gold<it.price)?'disabled':'')+'>'+(eq?'装備中':owned?'装備':it.price.toLocaleString()+'G')+'</button></div>'}).join('');list.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const it=itemById(b.dataset.buy),owned=state.inventory.includes(it.id);if(owned){state.equipped[it.slot]=it.id;save();renderAll();toast(it.name+' を装備')}else if(state.gold>=it.price){state.gold-=it.price;state.inventory.push(it.id);state.equipped[it.slot]=it.id;save();renderAll();toast(it.name+' を購入・装備')}})}
-function renderEditor(){
- const root=document.getElementById("menuEditor");root.innerHTML="";
- state.menu.forEach((ex,i)=>{const w=document.createElement("div");w.innerHTML='<div class="editor"><input class="n"><input class="k" inputmode="decimal"><input class="r" inputmode="numeric"><input class="s" inputmode="numeric"></div><div class="editrow"><select class="muscleSel"></select><button class="iconbtn del">削除</button></div>';
- w.querySelector(".n").value=ex.name;w.querySelector(".k").value=ex.sets[0]?.kg||0;w.querySelector(".r").value=ex.sets[0]?.reps||0;w.querySelector(".s").value=ex.sets.length;
- const sel=w.querySelector(".muscleSel");["STR","SHOULDER","BACK","CORE","LEG"].forEach(m=>{const o=document.createElement("option");o.value=m;o.textContent=m;o.selected=m===ex.muscle;sel.appendChild(o)});w.querySelector(".del").addEventListener("click",()=>{state.menu.splice(i,1);renderEditor()});root.appendChild(w)});
-}
-document.getElementById("addExercise").addEventListener("click",()=>{state.menu.push({name:"新しい種目",muscle:"STR",sets:[{kg:10,reps:15},{kg:10,reps:15}]});renderEditor()});
-document.getElementById("saveMenu").addEventListener("click",()=>{[...document.querySelectorAll("#menuEditor>div")].forEach((w,i)=>{const ex=state.menu[i],kg=+w.querySelector(".k").value||0,reps=+w.querySelector(".r").value||0,n=Math.max(1,+w.querySelector(".s").value||1);ex.name=w.querySelector(".n").value.trim()||"種目";ex.muscle=w.querySelector(".muscleSel").value;const old=ex.sets;ex.sets=Array.from({length:n},(_,j)=>({kg:old[j]?.kg??kg,reps:old[j]?.reps??reps}));ex.sets[0].kg=kg;ex.sets[0].reps=reps});save();toast("メニューを保存しました");renderTraining()});
-function renderHistory(){const root=document.getElementById("history");if(!root)return;root.innerHTML=state.history.length?state.history.map(h=>'<div class="historyItem"><b>'+h.date+'　Lv.'+h.level+'</b><div class="small">+'+h.exp+' EXP / '+h.damage+' DMG / '+(h.attack||'NORMAL')+' / PR '+h.prs+'種目</div></div>').join(""):'<div class="small">まだ記録はありません。</div>'}
-document.getElementById("resetData").addEventListener("click",()=>{if(confirm("全記録を初期化しますか？")){state=clone(initial);save();renderAll();renderEditor();renderTraining();toast("初期化しました")}});
-function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
-function tone(f,d,type="triangle",gain=.02){ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=f;g.gain.value=gain;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d)}
-function playSfx(kind){if(!bgmOn)return;if(kind==="win"){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.18,"triangle",.04),i*110))}else tone(120,.12,"sawtooth",.04)}
-function startBgm(){ensureAudio();bgmOn=true;document.getElementById("soundBtn").textContent="♪ ON";const notes=[220,261.6,329.6,293.7,246.9,293.7,329.6,392];let i=0;bgmTimer=setInterval(()=>tone(notes[i++%notes.length],.32,"triangle",.012),420)}
-function stopBgm(){bgmOn=false;clearInterval(bgmTimer);document.getElementById("soundBtn").textContent="♪ OFF"}
-document.getElementById("soundBtn").addEventListener("click",()=>bgmOn?stopBgm():startBgm());
-renderAll();
-})();
-</script>
-</body></html>
+</div><script src="v7.js"></script></body></html>

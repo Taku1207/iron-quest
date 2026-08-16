@@ -1,0 +1,107 @@
+
+:root{
+ --bg:#050a11;--panel:#0a1725;--panel2:#0e2135;--line:#24445f;--text:#f6f8fb;
+ --muted:#91a5b8;--gold:#e9bb54;--blue:#21a8ff;--red:#ff6158;--green:#68d69b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{max-width:520px;min-height:100vh;margin:auto;padding:14px 14px 92px;background:radial-gradient(circle at 50% 0,#10233a 0,#050a11 46%)}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo{font:900 25px Georgia,serif;letter-spacing:.08em;color:#f2d99e}.tag{font-size:9px;letter-spacing:.11em;color:var(--muted)}
+.iconbtn{border:1px solid #315775;background:#071522;color:#dceeff;border-radius:9px;padding:8px 10px}
+.card{background:linear-gradient(180deg,#0d2034,#081522);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 28px #0008}
+.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}.small{font-size:12px;color:var(--muted)}
+.badge{display:inline-flex;padding:5px 8px;border:1px solid #765d24;border-radius:999px;background:#17160d;color:#f2ce73;font-size:11px}
+.big{font-size:25px;font-weight:900}.power{font-size:25px;font-weight:1000;color:var(--gold)}
+.hero{height:282px;margin:10px 0;border:1px solid #294c69;border-radius:13px;overflow:hidden;position:relative;background:#07111b}
+.hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:radial-gradient(circle at 50% 40%,#17304b,#07111b 70%);display:block}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#07111cf3 0,transparent 42%)}
+.heroLabel{position:absolute;left:12px;bottom:10px;z-index:2}
+.bar{height:10px;background:#020812;border:1px solid #21405b;border-radius:999px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,#168ce2,#54d8ff)}
+.hp>div{background:linear-gradient(90deg,#ff5c53,#ff9a47)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.stat{text-align:center;background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.stat b{display:block;font-size:18px;color:#f2cc6e}
+.section{margin-top:11px}.section h3{font-size:15px;color:#efd18b;margin:0 0 9px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.muscle{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.muscle span{float:right;color:#55c9ff;font-weight:900}
+.enemyVisual{height:180px;border:1px solid #53362e;border-radius:12px;overflow:hidden;background:#160a0a;margin:9px 0}.enemyVisual img{width:100%;height:100%;object-fit:contain;background:radial-gradient(circle,#39131a,#140809 70%)}
+.primary,.secondary,.danger{width:100%;border-radius:11px;padding:13px 14px;font-weight:900}.primary{border:1px solid #4ac8ff;background:linear-gradient(180deg,#1199ed,#0866b8);color:white}.secondary{border:1px solid #2c506e;background:#0c2033;color:#eaf4ff}.danger{border:1px solid #6c3338;background:#2b1215;color:#ffb7bc}
+.page{display:none}.page.active{display:block}
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);background:#040a11f2;border-top:1px solid #24445f;padding:7px 7px calc(7px + env(safe-area-inset-bottom));z-index:40}.tab{border:0;background:none;color:#72899e;padding:8px 3px;font-size:10px}.tab.active{color:#4ac8ff}
+.exercise{background:#081827;border:1px solid #23445f;border-radius:12px;padding:11px;margin-bottom:8px}.exhead{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}.exname{font-weight:900}.type{font-size:10px;border:1px solid #365e7c;border-radius:999px;padding:4px 7px;color:#9cddff}
+.setlabels{display:grid;grid-template-columns:28px 1fr 1fr 34px;gap:6px;margin:2px 0 0;color:#91a5b8;font-size:10px;text-align:center}.setrow{display:grid;grid-template-columns:28px 1fr 1fr 34px;gap:6px;align-items:center;margin-top:6px}.unitfield{position:relative}.unitfield input{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:9px 36px 9px 9px}.unitfield .unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:#91a5b8;pointer-events:none}.check{width:25px;height:25px;accent-color:#19a6ff}.record{font-size:11px;color:#f2c96c;margin-top:6px}
+.editor{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;margin-bottom:6px}.editor input,.muscleSel{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:8px}.editrow{display:flex;gap:6px;margin-bottom:10px}
+.overlay{display:none;position:fixed;inset:0;background:#010409ed;z-index:90;align-items:center;justify-content:center;padding:18px}.overlay.show{display:flex}.modal{width:min(450px,100%);max-height:88vh;overflow:auto}.result{text-align:center}.resultExp{font-size:40px;color:#ffd15e;font-weight:1000}.damage{font-size:29px;color:#ffdf75;font-weight:1000;margin:5px 0}.loot{font-size:58px;margin:7px}
+.reviewRow{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;padding:8px 0;border-bottom:1px solid #193349;font-size:12px}.reviewRow b{font-size:12px}
+.note{padding:10px;border:1px solid #294c68;background:#071522;border-radius:10px;font-size:12px;color:#b9cad8}.historyItem{padding:10px 0;border-bottom:1px solid #1a344a}.historyItem:last-child{border:0}
+.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%) translateY(-75px);z-index:100;background:#071726;border:1px solid #55c9ff;color:white;padding:10px 14px;border-radius:10px;transition:.25s;font-weight:800;text-align:center;max-width:90%}.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ===== IRON QUEST battle / level-up presentation ===== */
+.battleOverlay{display:none;position:fixed;inset:0;z-index:120;background:radial-gradient(circle at 50% 38%,#14243a 0,#03060b 72%);overflow:hidden;color:#fff}
+.battleOverlay.show{display:block}
+.battleStage{position:absolute;inset:0;max-width:520px;margin:auto;overflow:hidden}
+.battleTop{position:absolute;top:max(18px,env(safe-area-inset-top));left:18px;right:18px;z-index:5}
+.battleTitle{text-align:center;font-weight:1000;letter-spacing:.16em;color:#f0cd75;font-size:14px}
+.battleEnemyName{text-align:center;font-size:25px;font-weight:1000;margin-top:6px}
+.battleArena{position:absolute;left:0;right:0;top:105px;bottom:205px;overflow:hidden;background:
+ radial-gradient(circle at 68% 42%,#57201855,transparent 27%),
+ linear-gradient(to top,#03060b 0,#07101b 48%,#101725 100%)}
+.battleArena:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 44%,#ffffff08 49%,transparent 54%)}
+.fighter{position:absolute;bottom:28px;transition:transform .22s ease,filter .15s ease,opacity .25s}
+.fighter img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 15px 13px #000b)}
+.playerFighter{width:46%;height:62%;left:-2%;transform:translateX(-8%) scale(.92);transform-origin:bottom center}
+.enemyFighter{width:58%;height:78%;right:-4%;transform-origin:bottom center}
+.playerFighter.attack{transform:translateX(58%) translateY(-3%) scale(1.04)}
+.playerFighter.recoil{transform:translateX(-5%) scale(.92)}
+.enemyFighter.hit{animation:enemyHit .42s ease}
+.enemyFighter.criticalHit{animation:criticalHit .58s ease}
+@keyframes enemyHit{0%,100%{transform:translateX(0)}25%{transform:translateX(13px) rotate(1deg);filter:brightness(1.8)}55%{transform:translateX(-10px) rotate(-1deg);filter:brightness(1.4)}}
+@keyframes criticalHit{0%,100%{transform:scale(1)}18%{transform:translateX(20px) scale(1.03);filter:brightness(2.5)}38%{transform:translateX(-18px) scale(.97)}58%{transform:translateX(14px) scale(1.02);filter:hue-rotate(-25deg) brightness(1.9)}}
+.slashFx{position:absolute;z-index:4;left:45%;top:30%;width:8px;height:230px;border-radius:99px;background:linear-gradient(#fff,#ffd44f 45%,#ff6a29);box-shadow:0 0 16px #fff,0 0 40px #ff9f27;opacity:0;transform:rotate(48deg) scaleY(.15)}
+.slashFx.fire{animation:slash .32s ease-out}
+@keyframes slash{0%{opacity:0;transform:rotate(48deg) scaleY(.12)}25%{opacity:1}100%{opacity:0;transform:rotate(48deg) scaleY(1.25)}}
+.screenFlash{position:absolute;inset:0;z-index:3;background:#fff;opacity:0;pointer-events:none}
+.screenFlash.fire{animation:flashBattle .32s ease-out}
+@keyframes flashBattle{0%{opacity:0}18%{opacity:.72}100%{opacity:0}}
+.damagePop{position:absolute;z-index:7;left:50%;top:43%;transform:translate(-50%,-50%) scale(.55);text-align:center;opacity:0;white-space:nowrap}
+.damagePop.show{animation:damagePop .85s cubic-bezier(.2,.8,.2,1)}
+.damageType{font-size:18px;font-weight:1000;letter-spacing:.12em}
+.damageNumber{font-size:54px;line-height:.9;font-weight:1000;text-shadow:0 4px 0 #4c1600,0 0 18px currentColor}
+.damagePop.normal{color:#f4f7fb}.damagePop.power{color:#73d4ff}.damagePop.critical{color:#ffd34f}
+@keyframes damagePop{0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}25%{opacity:1;transform:translate(-50%,-56%) scale(1.15)}70%{opacity:1;transform:translate(-50%,-62%) scale(1)}100%{opacity:0;transform:translate(-50%,-76%) scale(.92)}}
+.battleHud{position:absolute;left:18px;right:18px;bottom:95px;z-index:6}
+.battleHpLabels{display:flex;justify-content:space-between;align-items:end;margin-bottom:7px}
+.battleHpName{font-size:19px;font-weight:900}.battleHpNum{font-size:13px;color:#9dafc1}
+.battleHpBar{height:14px;background:#03070c;border:1px solid #324a60;border-radius:999px;overflow:hidden}
+.battleHpFill{height:100%;background:linear-gradient(90deg,#ed3636,#ff7d3e);transition:width .8s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 14px #ff483c77}
+.battleMessage{height:44px;text-align:center;padding-top:12px;color:#a9bdcf;font-size:13px}
+.rewardPanel{display:none;position:absolute;z-index:10;left:20px;right:20px;top:50%;transform:translateY(-50%);padding:20px;background:linear-gradient(180deg,#10243a,#07121e);border:1px solid #bc8a32;border-radius:18px;text-align:center;box-shadow:0 24px 70px #000d}
+.rewardPanel.show{display:block;animation:panelIn .45s ease}
+@keyframes panelIn{from{opacity:0;transform:translateY(-44%) scale(.9)}to{opacity:1;transform:translateY(-50%) scale(1)}}
+.rewardTitle{font-size:27px;font-weight:1000;color:#ffd572}.rewardItems{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.rewardItem{border:1px solid #294d69;background:#071725;border-radius:12px;padding:10px 5px}.rewardIcon{font-size:31px}.rewardVal{font-weight:900;color:#f3d076;font-size:13px;margin-top:4px}
+.battleContinue{border:1px solid #4ac8ff;background:linear-gradient(#149eed,#0866b8);color:#fff;width:100%;border-radius:11px;padding:13px;font-weight:900}
+.levelOverlay{display:none;position:fixed;inset:0;z-index:140;background:radial-gradient(circle at 50% 45%,#58461b 0,#111729 34%,#020509 75%);align-items:center;justify-content:center;padding:22px;color:#fff}
+.levelOverlay.show{display:flex;animation:levelBg .8s ease}
+@keyframes levelBg{0%{filter:brightness(3)}100%{filter:brightness(1)}}
+.levelRays{position:absolute;width:430px;height:430px;border-radius:50%;background:repeating-conic-gradient(from 0deg,#ffd86600 0 8deg,#ffd86622 8deg 11deg);animation:spin 12s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.levelCard{position:relative;z-index:2;text-align:center;width:min(420px,100%)}
+.levelKicker{color:#f4cf70;letter-spacing:.25em;font-weight:900}.levelMain{font-size:48px;font-weight:1000;color:#ffe28c;text-shadow:0 0 25px #ffbb36;margin:7px 0}
+.levelJump{font-size:22px;font-weight:900}.levelChar{height:260px;margin:10px auto}.levelChar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 16px #000)}
+.levelStats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:13px 0}.levelStat{background:#081827;border:1px solid #41617a;border-radius:11px;padding:10px}.levelStat b{display:block;color:#67d4ff;font-size:19px}
+.levelUnlock{background:#241c0b;border:1px solid #9a7529;border-radius:12px;padding:10px;color:#f3d27d;margin-bottom:12px}
+
+
+/* ===== v7 combat / equipment ===== */
+.combatStats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.combatMini{background:#06111d;border:1px solid #203e58;border-radius:10px;padding:9px;text-align:center}.combatMini span{display:block;font-size:10px;color:#91a5b8}.combatMini b{display:block;margin-top:2px;font-size:16px;color:#f7d37d}
+.enemyMeta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}.metaBox{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.metaBox span{display:block;font-size:10px;color:#91a5b8}.metaBox b{font-size:15px;color:#f2cc6e}.risk{margin-top:8px;padding:9px;border-radius:9px;font-size:12px;font-weight:800}.risk.good{background:#09241c;border:1px solid #245f49;color:#86e6b5}.risk.warn{background:#2a2008;border:1px solid #735d1d;color:#ffd36c}.risk.bad{background:#2a0f13;border:1px solid #71323a;color:#ff9ea5}.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.gearSummary{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}.gearBonus{background:#07121f;border:1px solid #203e58;border-radius:9px;padding:8px;text-align:center}.gearBonus span{display:block;color:#91a5b8;font-size:9px}.gearBonus b{color:#f2cc6e;font-size:14px}.slotGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.slotCard{background:#071522;border:1px solid #24445f;border-radius:12px;padding:10px}.slotTop{display:flex;gap:9px;align-items:center}.itemArt{width:48px;height:48px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:27px;background:radial-gradient(circle at 50% 35%,#28425c,#08111b 70%);border:1px solid #355a78;flex:0 0 auto}.itemName{font-weight:900;font-size:13px}.itemStats{font-size:10px;color:#9fb3c4;margin-top:3px}.slotActions{display:flex;gap:5px;margin-top:8px}.miniBtn{flex:1;border-radius:8px;padding:7px 5px;border:1px solid #315775;background:#0b2032;color:#eaf5ff;font-size:10px;font-weight:800}.miniBtn.gold{border-color:#776020;background:#211b08;color:#f4d579}.miniBtn:disabled{opacity:.45}.rarity-common{color:#d7e0e8}.rarity-uncommon{color:#7fdfa8}.rarity-rare{color:#63b8ff}.rarity-epic{color:#c68cff}.rarity-legendary{color:#ffcd63}.shopHead{display:flex;justify-content:space-between;align-items:center;gap:8px}.shopGold{font-weight:1000;color:#f1c95e}.shopFilters{display:flex;gap:5px;overflow:auto;margin:10px 0 8px;padding-bottom:2px}.shopFilter{white-space:nowrap;border:1px solid #294d69;background:#071725;color:#9fb6c9;border-radius:999px;padding:6px 9px;font-size:10px}.shopFilter.active{border-color:#c69535;color:#f6d77c;background:#211a08}.shopList{display:grid;gap:8px}.shopItem{display:grid;grid-template-columns:54px 1fr auto;gap:9px;align-items:center;background:#071522;border:1px solid #24445f;border-radius:12px;padding:9px}.price{color:#f2cc6e;font-weight:900;font-size:12px}.locked{color:#ff9ea5;font-size:10px}.owned{color:#79dca7;font-size:10px}
+.playerHpBar{height:12px;background:#03070c;border:1px solid #324a60;border-radius:999px;overflow:hidden;margin-top:5px}.playerHpFill{height:100%;background:linear-gradient(90deg,#3ac66f,#82e6a5);transition:width .45s ease}.enemyFighter.attack{transform:translateX(-42%) scale(1.04)}.playerFighter.hit{animation:playerHit .38s ease}@keyframes playerHit{0%,100%{filter:none}25%{transform:translateX(-15px) scale(.92);filter:brightness(2)}55%{transform:translateX(8px) scale(.92)}}.damagePop.enemyDamage{color:#ff786f}.battleRound{font-size:11px;color:#7f94a7;text-align:center;margin-top:5px}.defeatTitle{color:#ff655e!important}.shopNote{font-size:11px;color:#91a5b8;margin-top:6px}
+
+
+.itemArt{background-image:url("equipment_atlas.jpg");background-repeat:no-repeat;background-size:360% 360%;color:transparent}.art-weapon{background-position:2% 4%}.art-head{background-position:68% 30%}.art-body{background-position:97% 31%}.art-arms{background-position:98% 54%}.art-legs{background-position:16% 67%}.art-accessory{background-position:68% 67%}
+
+
+/* ===== Battle Point / replay ===== */
+.bpPanel,.bpBattleBar{margin-top:10px;border:1px solid #315775;background:linear-gradient(180deg,#0b2135,#071522);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center}
+.bpPanel b,.bpBattleBar b{color:#73d4ff;font-size:18px}.enemySelector{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:7px 0 11px}.enemyPick{border:1px solid #284861;background:#071522;color:#d8e7f3;border-radius:10px;padding:9px;text-align:left}.enemyPick b{display:block;font-size:12px}.enemyPick span{font-size:10px;color:#8fa5b8}.enemyPick.active{border-color:#e3b754;box-shadow:0 0 0 1px #e3b75455 inset;background:#1a180e}.enemyPick.locked{opacity:.38}.enemyPick.cleared b:after{content:"  ✓";color:#68d69b}.primary:disabled{opacity:.45;filter:grayscale(.5);cursor:not-allowed}
