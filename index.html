@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050a11">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>IRON QUEST</title>
+<style>
+:root{
+ --bg:#050a11;--panel:#0a1725;--panel2:#0e2135;--line:#24445f;--text:#f6f8fb;
+ --muted:#91a5b8;--gold:#e9bb54;--blue:#21a8ff;--red:#ff6158;--green:#68d69b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{max-width:520px;min-height:100vh;margin:auto;padding:14px 14px 92px;background:radial-gradient(circle at 50% 0,#10233a 0,#050a11 46%)}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo{font:900 25px Georgia,serif;letter-spacing:.08em;color:#f2d99e}.tag{font-size:9px;letter-spacing:.11em;color:var(--muted)}
+.iconbtn{border:1px solid #315775;background:#071522;color:#dceeff;border-radius:9px;padding:8px 10px}
+.card{background:linear-gradient(180deg,#0d2034,#081522);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 28px #0008}
+.row{display:flex;gap:9px;align-items:center}.between{justify-content:space-between}.small{font-size:12px;color:var(--muted)}
+.badge{display:inline-flex;padding:5px 8px;border:1px solid #765d24;border-radius:999px;background:#17160d;color:#f2ce73;font-size:11px}
+.big{font-size:25px;font-weight:900}.power{font-size:25px;font-weight:1000;color:var(--gold)}
+.hero{height:282px;margin:10px 0;border:1px solid #294c69;border-radius:13px;overflow:hidden;position:relative;background:#07111b}
+.hero img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:radial-gradient(circle at 50% 40%,#17304b,#07111b 70%);display:block}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#07111cf3 0,transparent 42%)}
+.heroLabel{position:absolute;left:12px;bottom:10px;z-index:2}
+.bar{height:10px;background:#020812;border:1px solid #21405b;border-radius:999px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,#168ce2,#54d8ff)}
+.hp>div{background:linear-gradient(90deg,#ff5c53,#ff9a47)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.stat{text-align:center;background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.stat b{display:block;font-size:18px;color:#f2cc6e}
+.section{margin-top:11px}.section h3{font-size:15px;color:#efd18b;margin:0 0 9px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.muscle{background:#07121f;border:1px solid #203e58;border-radius:10px;padding:9px}.muscle span{float:right;color:#55c9ff;font-weight:900}
+.enemyVisual{height:180px;border:1px solid #53362e;border-radius:12px;overflow:hidden;background:#160a0a;margin:9px 0}.enemyVisual img{width:100%;height:100%;object-fit:contain;background:radial-gradient(circle,#39131a,#140809 70%)}
+.primary,.secondary,.danger{width:100%;border-radius:11px;padding:13px 14px;font-weight:900}.primary{border:1px solid #4ac8ff;background:linear-gradient(180deg,#1199ed,#0866b8);color:white}.secondary{border:1px solid #2c506e;background:#0c2033;color:#eaf4ff}.danger{border:1px solid #6c3338;background:#2b1215;color:#ffb7bc}
+.page{display:none}.page.active{display:block}
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);background:#040a11f2;border-top:1px solid #24445f;padding:7px 7px calc(7px + env(safe-area-inset-bottom));z-index:40}.tab{border:0;background:none;color:#72899e;padding:8px 3px;font-size:10px}.tab.active{color:#4ac8ff}
+.exercise{background:#081827;border:1px solid #23445f;border-radius:12px;padding:11px;margin-bottom:8px}.exhead{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}.exname{font-weight:900}.type{font-size:10px;border:1px solid #365e7c;border-radius:999px;padding:4px 7px;color:#9cddff}
+.setrow{display:grid;grid-template-columns:28px 1fr 1fr 34px;gap:6px;align-items:center;margin-top:6px}.setrow input{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:9px}.check{width:25px;height:25px;accent-color:#19a6ff}.record{font-size:11px;color:#f2c96c;margin-top:6px}
+.editor{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;margin-bottom:6px}.editor input,.muscleSel{width:100%;min-width:0;background:#030d17;border:1px solid #28506d;color:#fff;border-radius:8px;padding:8px}.editrow{display:flex;gap:6px;margin-bottom:10px}
+.overlay{display:none;position:fixed;inset:0;background:#010409ed;z-index:90;align-items:center;justify-content:center;padding:18px}.overlay.show{display:flex}.modal{width:min(450px,100%);max-height:88vh;overflow:auto}.result{text-align:center}.resultExp{font-size:40px;color:#ffd15e;font-weight:1000}.damage{font-size:29px;color:#ffdf75;font-weight:1000;margin:5px 0}.loot{font-size:58px;margin:7px}
+.reviewRow{display:grid;grid-template-columns:1.6fr .7fr .7fr .6fr;gap:6px;padding:8px 0;border-bottom:1px solid #193349;font-size:12px}.reviewRow b{font-size:12px}
+.note{padding:10px;border:1px solid #294c68;background:#071522;border-radius:10px;font-size:12px;color:#b9cad8}.historyItem{padding:10px 0;border-bottom:1px solid #1a344a}.historyItem:last-child{border:0}
+.toast{position:fixed;top:15px;left:50%;transform:translateX(-50%) translateY(-75px);z-index:100;background:#071726;border:1px solid #55c9ff;color:white;padding:10px 14px;border-radius:10px;transition:.25s;font-weight:800;text-align:center;max-width:90%}.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div class="app">
+<header>
+ <div><div class="logo">IRON QUEST</div><div class="tag">TRAIN YOUR BODY. LEVEL UP YOUR LIFE.</div></div>
+ <button id="soundBtn" class="iconbtn">♪ OFF</button>
+</header>
+
+<section id="home" class="page active">
+ <div class="card">
+  <div class="row between">
+   <div><span id="titleBadge" class="badge">冒険者</span><div class="big">TAKU <span id="levelText">Lv.1</span></div></div>
+   <div style="text-align:right"><div class="small">戦闘力</div><div class="power" id="powerText">0</div></div>
+  </div>
+  <div class="hero"><img id="heroImg" src="stage_1.jpg" alt="character"><div class="heroLabel"><div class="small">CURRENT FORM</div><b id="formText">冒険者</b></div></div>
+  <div class="row between small"><span>EXP</span><span id="xpText"></span></div>
+  <div class="bar"><div id="xpFill"></div></div>
+  <div class="stats">
+   <div class="stat"><span class="small">総トレ</span><b id="totalWorkouts">0</b></div>
+   <div class="stat"><span class="small">撃破</span><b id="kills">0</b></div>
+   <div class="stat"><span class="small">装備Tier</span><b id="gearTier">1</b></div>
+  </div>
+ </div>
+ <div class="card section"><h3>筋肉別ステータス</h3><div id="muscleGrid" class="grid2"></div></div>
+ <div class="card section">
+  <div class="row between"><h3 style="margin:0">現在の敵</h3><span class="badge" id="enemyLv"></span></div>
+  <div class="enemyVisual"><img id="enemyImg" src="enemy.jpg" alt="enemy"></div>
+  <div class="row between"><b id="enemyName"></b><span class="small" id="enemyHpText"></span></div>
+  <div class="bar hp"><div id="enemyHpFill"></div></div>
+  <div style="height:10px"></div><button class="primary" data-go="train">修行に出る</button>
+ </div>
+</section>
+
+<section id="train" class="page">
+ <div class="card"><div class="row between"><div><div class="small">TODAY'S TRAINING</div><h2 style="margin:2px 0">今日の修行</h2></div><span class="badge" id="progressBadge">0%</span></div><div class="small">重量・回数は各セットで変更可能。変更値は次回にも引き継がれます。</div></div>
+ <div id="exerciseList" class="section"></div>
+ <button class="primary" id="reviewBtn">トレーニング完了 → 記録確認</button>
+</section>
+
+<section id="battle" class="page">
+ <div class="card">
+  <div class="small">BATTLE</div><h2 style="margin:2px 0">討伐進行</h2>
+  <div class="enemyVisual"><img src="boss.jpg" alt="boss"></div>
+  <div class="row between"><b id="battleEnemy"></b><span class="small" id="battleHp"></span></div>
+  <div class="bar hp"><div id="battleHpFill"></div></div>
+  <div class="note section">トレーニングを確定すると攻撃。自己ベスト更新数に応じて追加ダメージ。</div>
+ </div>
+</section>
+
+<section id="gear" class="page">
+ <div class="card"><div class="small">CHARACTER</div><h2 style="margin:2px 0">装備・進化</h2><div class="hero"><img id="gearImg" src="stage_1.jpg" alt="character"></div><div id="gearDesc"></div></div>
+ <div class="card section"><h3>次の進化</h3><div id="evolutionText" class="note"></div></div>
+</section>
+
+<section id="settings" class="page">
+ <div class="card"><div class="small">TRAINING MENU</div><h2 style="margin:2px 0">メニュー編集</h2><div class="small">種目・重量・回数・セット・対象部位をいつでも変更。</div><div style="height:12px"></div><div id="menuEditor"></div><button class="secondary" id="addExercise">＋ 種目追加</button><div style="height:8px"></div><button class="primary" id="saveMenu">保存</button></div>
+ <div class="card section"><h3>履歴</h3><div id="history"></div></div>
+ <div class="card section"><button class="danger" id="resetData">全データ初期化</button></div>
+</section>
+</div>
+
+<nav class="tabs">
+ <button class="tab active" data-page="home">🏠<br>HOME</button>
+ <button class="tab" data-page="train">🏋️<br>修行</button>
+ <button class="tab" data-page="battle">⚔️<br>バトル</button>
+ <button class="tab" data-page="gear">🛡️<br>装備</button>
+ <button class="tab" data-page="settings">⚙️<br>編集</button>
+</nav>
+
+<div class="overlay" id="reviewOverlay">
+ <div class="card modal">
+  <div class="small">REVIEW</div><h2 style="margin:2px 0 8px">今日の記録を確認</h2>
+  <div id="reviewList"></div>
+  <div style="height:10px"></div>
+  <button class="primary" id="finalizeBtn">記録を確定して戦う</button>
+  <div style="height:7px"></div><button class="secondary" id="backToTrain">戻って修正</button>
+ </div>
+</div>
+
+<div class="overlay" id="resultOverlay">
+ <div class="card modal result">
+  <div class="small">TRAINING COMPLETE</div>
+  <div class="resultExp" id="resultTitle"></div>
+  <div class="damage" id="damageText"></div>
+  <div id="resultText"></div>
+  <div class="loot" id="loot"></div>
+  <button class="primary" id="closeResult">報酬を受け取る</button>
+ </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const defaultMenu=[
+{name:"オーバーヘッドプレス",muscle:"SHOULDER",sets:[{kg:35,reps:15},{kg:35,reps:15}]},
+{name:"ラットプルダウン",muscle:"BACK",sets:[{kg:35,reps:15},{kg:45,reps:15}]},
+{name:"チェストプレス",muscle:"STR",sets:[{kg:25,reps:15},{kg:25,reps:15}]},
+{name:"ペクトラル",muscle:"STR",sets:[{kg:15,reps:15},{kg:15,reps:15}]},
+{name:"アブドミナルクランチ",muscle:"CORE",sets:[{kg:25,reps:15},{kg:25,reps:15}]},
+{name:"ローバック",muscle:"BACK",sets:[{kg:43,reps:15},{kg:43,reps:15}]},
+{name:"ロータリートーソー",muscle:"CORE",sets:[{kg:20,reps:15},{kg:20,reps:15}]},
+{name:"レッグプレス",muscle:"LEG",sets:[{kg:41,reps:20},{kg:41,reps:20}]},
+{name:"アダクター",muscle:"LEG",sets:[{kg:15,reps:20}]}
+];
+const enemies=[
+{name:"スライム",hp:220,lv:"Lv.1-5"},{name:"ゴブリン",hp:350,lv:"Lv.5-10"},{name:"オーガ",hp:600,lv:"Lv.10-20"},
+{name:"黒オーガ",hp:900,lv:"Lv.20-30"},{name:"ミノタウロス",hp:1300,lv:"Lv.30-50"},{name:"ドラゴン",hp:1900,lv:"Lv.50-70"},{name:"魔王",hp:2800,lv:"Lv.70+"}
+];
+const stages=[
+{lv:1,title:"冒険者",desc:"初期装備",img:1},{lv:3,title:"木剣士",desc:"武器強化",img:2},{lv:5,title:"革装戦士",desc:"革装備",img:3},
+{lv:8,title:"鉄剣士",desc:"鉄剣を獲得",img:4},{lv:10,title:"軽装騎士",desc:"騎士装備",img:5},{lv:15,title:"黒鋼騎士",desc:"肩・胴装備強化",img:6},
+{lv:20,title:"重装騎士",desc:"重装備",img:7},{lv:30,title:"魔剣士",desc:"魔剣・赤いオーラ",img:8},
+{lv:50,title:"竜騎士",desc:"青炎装備",img:9},{lv:80,title:"神話戦士",desc:"神話級装備",img:10},{lv:100,title:"最終覚醒",desc:"最終形態",img:10}
+];
+const initial={level:1,xp:0,totalWorkouts:0,kills:0,enemyIndex:0,enemyHp:220,
+muscles:{STR:{lv:1,xp:0},SHOULDER:{lv:1,xp:0},BACK:{lv:1,xp:0},CORE:{lv:1,xp:0},LEG:{lv:1,xp:0}},
+menu:defaultMenu,records:{},history:[]};
+const clone=x=>JSON.parse(JSON.stringify(x));
+function load(){try{const x=JSON.parse(localStorage.getItem("ironQuestV4"));return x?Object.assign(clone(initial),x):clone(initial)}catch(e){return clone(initial)}}
+let state=load(),audioCtx=null,bgmTimer=null,bgmOn=false;
+function save(){try{localStorage.setItem("ironQuestV4",JSON.stringify(state))}catch(e){}}
+function xpNeed(lv){return 100+Math.floor((lv-1)*18)}
+function stage(){let s=stages[0];stages.forEach(v=>{if(state.level>=v.lv)s=v});return s}
+function power(){return Math.round(state.level*115+Object.values(state.muscles).reduce((a,m)=>a+m.lv*42,0))}
+function toast(msg){const e=document.getElementById("toast");e.textContent=msg;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1600)}
+function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.page===id));if(id==="train")renderTraining();if(id==="settings")renderEditor();renderAll()}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+function renderAll(){
+ const st=stage(),en=enemies[state.enemyIndex%enemies.length];
+ if(!Number.isFinite(state.enemyHp)||state.enemyHp<=0)state.enemyHp=en.hp;
+ ["heroImg","gearImg"].forEach(id=>document.getElementById(id).src="stage_"+st.img+".jpg");
+ document.getElementById("titleBadge").textContent=st.title;document.getElementById("formText").textContent=st.title;
+ document.getElementById("levelText").textContent="Lv."+state.level;document.getElementById("powerText").textContent=power().toLocaleString();
+ document.getElementById("xpText").textContent=state.xp+" / "+xpNeed(state.level);document.getElementById("xpFill").style.width=Math.min(100,state.xp/xpNeed(state.level)*100)+"%";
+ document.getElementById("totalWorkouts").textContent=state.totalWorkouts;document.getElementById("kills").textContent=state.kills;document.getElementById("gearTier").textContent=st.img;
+ const labels={STR:"STR 胸・腕",SHOULDER:"SHOULDER 肩",BACK:"BACK 背中",CORE:"CORE 体幹",LEG:"LEG 脚"};
+ document.getElementById("muscleGrid").innerHTML=Object.entries(state.muscles).map(([k,m])=>'<div class="muscle"><b>'+labels[k]+'</b><span>Lv.'+m.lv+'</span><div class="small">EXP '+m.xp+' / 100</div></div>').join("");
+ ["enemyName","battleEnemy"].forEach(id=>document.getElementById(id).textContent=en.name);
+ document.getElementById("enemyLv").textContent=en.lv;document.getElementById("enemyHpText").textContent=state.enemyHp+" / "+en.hp;document.getElementById("battleHp").textContent=state.enemyHp+" / "+en.hp;
+ const hp=Math.max(0,Math.min(100,state.enemyHp/en.hp*100));document.getElementById("enemyHpFill").style.width=hp+"%";document.getElementById("battleHpFill").style.width=hp+"%";
+ document.getElementById("gearDesc").innerHTML='<b style="color:#e9bb54">'+st.title+'</b><div class="small">'+st.desc+'</div>';
+ const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'最終覚醒済み';
+ renderHistory();
+}
+function renderTraining(){
+ const root=document.getElementById("exerciseList");root.innerHTML="";
+ state.menu.forEach(ex=>{
+  const box=document.createElement("div");box.className="exercise";
+  box.innerHTML='<div class="exhead"><div class="exname"></div><span class="type"></span></div><div class="sets"></div>';
+  box.querySelector(".exname").textContent=ex.name;box.querySelector(".type").textContent=ex.muscle;
+  const sets=box.querySelector(".sets");
+  ex.sets.forEach((set,j)=>{
+   const r=document.createElement("div");r.className="setrow";r.innerHTML='<b>'+(j+1)+'</b><input class="kg" inputmode="decimal"><input class="reps" inputmode="numeric"><input class="check" type="checkbox">';
+   const kg=r.querySelector(".kg"),reps=r.querySelector(".reps");kg.value=set.kg;reps.value=set.reps;
+   kg.addEventListener("change",()=>{set.kg=Number(kg.value)||0;save()});reps.addEventListener("change",()=>{set.reps=Number(reps.value)||0;save()});r.querySelector(".check").addEventListener("change",updateProgress);sets.appendChild(r);
+  });
+  if(state.records[ex.name]){const d=document.createElement("div");d.className="record";d.textContent="自己ベスト総負荷："+state.records[ex.name].toLocaleString()+"kg";box.appendChild(d)}
+  root.appendChild(box);
+ });updateProgress();
+}
+function updateProgress(){const all=[...document.querySelectorAll("#exerciseList .check")],done=all.filter(x=>x.checked).length;document.getElementById("progressBadge").textContent=all.length?Math.round(done/all.length*100)+"%":"0%"}
+document.getElementById("reviewBtn").addEventListener("click",()=>{
+ const checks=[...document.querySelectorAll("#exerciseList .check")];if(!checks.length||checks.some(x=>!x.checked)){toast("全セット完了後に確認できます");return}
+ const root=document.getElementById("reviewList");root.innerHTML='<div class="reviewRow"><b>種目</b><b>重量</b><b>回数</b><b>SET</b></div>';
+ state.menu.forEach(ex=>{const r=document.createElement("div");r.className="reviewRow";r.innerHTML='<b></b><span></span><span></span><span></span>';r.children[0].textContent=ex.name;r.children[1].textContent=ex.sets.map(s=>s.kg).join("/");r.children[2].textContent=ex.sets.map(s=>s.reps).join("/");r.children[3].textContent=ex.sets.length;root.appendChild(r)});
+ document.getElementById("reviewOverlay").classList.add("show");
+});
+document.getElementById("backToTrain").addEventListener("click",()=>document.getElementById("reviewOverlay").classList.remove("show"));
+document.getElementById("finalizeBtn").addEventListener("click",finalizeWorkout);
+function finalizeWorkout(){
+ document.getElementById("reviewOverlay").classList.remove("show");
+ let earned=90,prs=0,gains={STR:0,SHOULDER:0,BACK:0,CORE:0,LEG:0};
+ state.menu.forEach(ex=>{const vol=ex.sets.reduce((a,s)=>a+(+s.kg||0)*(+s.reps||0),0),prev=state.records[ex.name]||0;let gain=10+Math.min(28,Math.round(vol/270));if(vol>prev){gain+=15;prs++;state.records[ex.name]=vol}gains[ex.muscle]+=gain;earned+=Math.round(gain*.45)});
+ const ups=[];Object.entries(gains).forEach(([k,g])=>{const m=state.muscles[k];m.xp+=g;while(m.xp>=100){m.xp-=100;m.lv++;ups.push(k+" Lv."+m.lv)}});
+ const oldLv=state.level;state.xp+=earned;while(state.xp>=xpNeed(state.level)){state.xp-=xpNeed(state.level);state.level++}
+ state.totalWorkouts++;const damage=100+prs*35+Math.round(power()/110);state.enemyHp-=damage;
+ let defeated=null,loot="";if(state.enemyHp<=0){defeated=enemies[state.enemyIndex%enemies.length];state.kills++;state.enemyIndex=(state.enemyIndex+1)%enemies.length;state.enemyHp=enemies[state.enemyIndex].hp;loot=["🗡️","🛡️","💍","💎","👑"][Math.floor(Math.random()*5)]}
+ state.history.unshift({date:new Date().toLocaleDateString("ja-JP"),exp:earned,damage,prs,level:state.level});state.history=state.history.slice(0,12);save();
+ document.getElementById("resultTitle").textContent="+"+earned+" EXP";document.getElementById("damageText").textContent=damage.toLocaleString()+" DAMAGE";
+ let html='<div class="small">自己ベスト更新 '+prs+'種目</div>';if(state.level>oldLv)html+='<div style="margin-top:8px"><b style="color:#e9bb54">LEVEL UP! Lv.'+oldLv+' → Lv.'+state.level+'</b></div>';if(ups.length)html+='<div class="small" style="margin-top:6px">'+ups.join(" / ")+'</div>';if(defeated)html+='<div style="margin-top:8px"><b>'+defeated.name+' 撃破！</b></div>';
+ document.getElementById("resultText").innerHTML=html;document.getElementById("loot").textContent=loot;document.getElementById("resultOverlay").classList.add("show");playSfx(defeated?"win":"hit");renderAll();
+}
+document.getElementById("closeResult").addEventListener("click",()=>{document.getElementById("resultOverlay").classList.remove("show");go("home")});
+function renderEditor(){
+ const root=document.getElementById("menuEditor");root.innerHTML="";
+ state.menu.forEach((ex,i)=>{const w=document.createElement("div");w.innerHTML='<div class="editor"><input class="n"><input class="k" inputmode="decimal"><input class="r" inputmode="numeric"><input class="s" inputmode="numeric"></div><div class="editrow"><select class="muscleSel"></select><button class="iconbtn del">削除</button></div>';
+ w.querySelector(".n").value=ex.name;w.querySelector(".k").value=ex.sets[0]?.kg||0;w.querySelector(".r").value=ex.sets[0]?.reps||0;w.querySelector(".s").value=ex.sets.length;
+ const sel=w.querySelector(".muscleSel");["STR","SHOULDER","BACK","CORE","LEG"].forEach(m=>{const o=document.createElement("option");o.value=m;o.textContent=m;o.selected=m===ex.muscle;sel.appendChild(o)});w.querySelector(".del").addEventListener("click",()=>{state.menu.splice(i,1);renderEditor()});root.appendChild(w)});
+}
+document.getElementById("addExercise").addEventListener("click",()=>{state.menu.push({name:"新しい種目",muscle:"STR",sets:[{kg:10,reps:15},{kg:10,reps:15}]});renderEditor()});
+document.getElementById("saveMenu").addEventListener("click",()=>{[...document.querySelectorAll("#menuEditor>div")].forEach((w,i)=>{const ex=state.menu[i],kg=+w.querySelector(".k").value||0,reps=+w.querySelector(".r").value||0,n=Math.max(1,+w.querySelector(".s").value||1);ex.name=w.querySelector(".n").value.trim()||"種目";ex.muscle=w.querySelector(".muscleSel").value;const old=ex.sets;ex.sets=Array.from({length:n},(_,j)=>({kg:old[j]?.kg??kg,reps:old[j]?.reps??reps}));ex.sets[0].kg=kg;ex.sets[0].reps=reps});save();toast("メニューを保存しました");renderTraining()});
+function renderHistory(){const root=document.getElementById("history");if(!root)return;root.innerHTML=state.history.length?state.history.map(h=>'<div class="historyItem"><b>'+h.date+'　Lv.'+h.level+'</b><div class="small">+'+h.exp+' EXP / '+h.damage+' DMG / PR '+h.prs+'種目</div></div>').join(""):'<div class="small">まだ記録はありません。</div>'}
+document.getElementById("resetData").addEventListener("click",()=>{if(confirm("全記録を初期化しますか？")){state=clone(initial);save();renderAll();renderEditor();renderTraining();toast("初期化しました")}});
+function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
+function tone(f,d,type="triangle",gain=.02){ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=f;g.gain.value=gain;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d)}
+function playSfx(kind){if(!bgmOn)return;if(kind==="win"){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.18,"triangle",.04),i*110))}else tone(120,.12,"sawtooth",.04)}
+function startBgm(){ensureAudio();bgmOn=true;document.getElementById("soundBtn").textContent="♪ ON";const notes=[220,261.6,329.6,293.7,246.9,293.7,329.6,392];let i=0;bgmTimer=setInterval(()=>tone(notes[i++%notes.length],.32,"triangle",.012),420)}
+function stopBgm(){bgmOn=false;clearInterval(bgmTimer);document.getElementById("soundBtn").textContent="♪ OFF"}
+document.getElementById("soundBtn").addEventListener("click",()=>bgmOn?stopBgm():startBgm());
+renderAll();
+})();
+</script>
+</body></html>
