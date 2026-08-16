@@ -145,7 +145,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 <section id="battle" class="page">
  <div class="card">
   <div class="small">BATTLE</div><h2 style="margin:2px 0">討伐進行</h2>
-  <div class="enemyVisual"><img src="boss.jpg" alt="boss"></div>
+  <div class="enemyVisual"><img id="battleEnemyImg" src="enemy.jpg" alt="boss"></div>
   <div class="row between"><b id="battleEnemy"></b><span class="small" id="battleHp"></span></div>
   <div class="bar hp"><div id="battleHpFill"></div></div>
   <div class="note section">トレーニングを確定すると攻撃。自己ベスト更新数に応じて追加ダメージ。</div>
@@ -202,7 +202,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
     </div>
     <div class="battleArena">
       <div id="animPlayer" class="fighter playerFighter"><img id="animPlayerImg" src="stage_1.jpg" alt="player"></div>
-      <div id="animEnemy" class="fighter enemyFighter"><img src="enemy.jpg" alt="enemy"></div>
+      <div id="animEnemy" class="fighter enemyFighter"><img id="animEnemyImg" src="enemy.jpg" alt="enemy"></div>
       <div id="slashFx" class="slashFx"></div>
       <div id="screenFlash" class="screenFlash"></div>
       <div id="damagePop" class="damagePop normal">
@@ -259,16 +259,27 @@ const defaultMenu=[
 {name:"アダクター",muscle:"LEG",sets:[{kg:15,reps:20}]}
 ];
 const enemies=[
-{name:"スライム",hp:220,lv:"Lv.1-5"},{name:"ゴブリン",hp:350,lv:"Lv.5-10"},{name:"オーガ",hp:600,lv:"Lv.10-20"},
-{name:"黒オーガ",hp:900,lv:"Lv.20-30"},{name:"ミノタウロス",hp:1300,lv:"Lv.30-50"},{name:"ドラゴン",hp:1900,lv:"Lv.50-70"},{name:"魔王",hp:2800,lv:"Lv.70+"}
+{name:"ゴブリン",min:1,max:5,hp:350,gold:60,exp:40,lv:"Lv.1-5",img:"enemy_goblin.jpg",drop:"ゴブリンの牙"},
+{name:"スケルトン",min:6,max:10,hp:700,gold:120,exp:80,lv:"Lv.6-10",img:"enemy_skeleton.jpg",drop:"古びた骨"},
+{name:"オーク",min:11,max:20,hp:1500,gold:240,exp:160,lv:"Lv.11-20",img:"enemy_orc.jpg",drop:"オークの角"},
+{name:"オーガ",min:21,max:35,hp:2800,gold:480,exp:320,lv:"Lv.21-35",img:"enemy_ogre.jpg",drop:"巨人の血"},
+{name:"ワイバーン",min:36,max:60,hp:6500,gold:900,exp:620,lv:"Lv.36-60",img:"enemy_wyvern.jpg",drop:"竜の鱗"},
+{name:"ドラゴン",min:61,max:85,hp:15000,gold:1800,exp:1200,lv:"Lv.61-85",img:"enemy_dragon.jpg",drop:"竜の宝玉"},
+{name:"魔王 / 古竜",min:86,max:999,hp:40000,gold:4000,exp:2500,lv:"Lv.86-100",img:"enemy_final.jpg",drop:"魔王の心臓"}
 ];
 const stages=[
-{lv:1,title:"冒険者",desc:"初期装備",img:1},{lv:3,title:"木剣士",desc:"武器強化",img:2},{lv:5,title:"革装戦士",desc:"革装備",img:3},
-{lv:8,title:"鉄剣士",desc:"鉄剣を獲得",img:4},{lv:10,title:"軽装騎士",desc:"騎士装備",img:5},{lv:15,title:"黒鋼騎士",desc:"肩・胴装備強化",img:6},
-{lv:20,title:"重装騎士",desc:"重装備",img:7},{lv:30,title:"魔剣士",desc:"魔剣・赤いオーラ",img:8},
-{lv:50,title:"竜騎士",desc:"青炎装備",img:9},{lv:80,title:"神話戦士",desc:"神話級装備",img:10},{lv:100,title:"最終覚醒",desc:"最終形態",img:10}
+{lv:1,title:"冒険者",desc:"初期装備。ここから修行が始まる。",img:"hero_lv1.jpg",tier:1},
+{lv:3,title:"木剣士",desc:"木剣を獲得。最初の進化。",img:"hero_lv3.jpg",tier:2},
+{lv:5,title:"革装戦士",desc:"革装備を獲得し、防具が強化。",img:"hero_lv5.jpg",tier:2},
+{lv:10,title:"蒼刃兵",desc:"蒼い武装を解放。戦士として覚醒。",img:"hero_lv10.jpg",tier:3},
+{lv:20,title:"鉄刃剣士",desc:"本格装備を獲得し、戦闘力が上昇。",img:"hero_lv20.jpg",tier:4},
+{lv:40,title:"重装隊長",desc:"重装備と隊長級の威圧感を獲得。",img:"hero_lv40.jpg",tier:5},
+{lv:70,title:"英雄級",desc:"英雄級の力とオーラを解放。",img:"hero_lv70.jpg",tier:6},
+{lv:100,title:"覇者",desc:"最終覚醒。IRON QUESTの頂点。",img:"hero_lv100.jpg",tier:7}
 ];
-const initial={level:1,xp:0,totalWorkouts:0,kills:0,enemyIndex:0,enemyHp:220,
+function enemyIndexForLevel(lv){const i=enemies.findIndex(e=>lv>=e.min&&lv<=e.max);return i<0?enemies.length-1:i}
+function currentEnemy(){return enemies[enemyIndexForLevel(state.level)]}
+const initial={level:1,xp:0,totalWorkouts:0,kills:0,enemyTier:0,enemyHp:350,
 muscles:{STR:{lv:1,xp:0},SHOULDER:{lv:1,xp:0},BACK:{lv:1,xp:0},CORE:{lv:1,xp:0},LEG:{lv:1,xp:0}},
 menu:defaultMenu,records:{},history:[],gold:0};
 const clone=x=>JSON.parse(JSON.stringify(x));
@@ -283,20 +294,23 @@ function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
 function renderAll(){
- const st=stage(),en=enemies[state.enemyIndex%enemies.length];
- if(!Number.isFinite(state.enemyHp)||state.enemyHp<=0)state.enemyHp=en.hp;
- ["heroImg","gearImg"].forEach(id=>document.getElementById(id).src="stage_"+st.img+".jpg");
+ const st=stage(),idx=enemyIndexForLevel(state.level),en=enemies[idx];
+ if(state.enemyTier===undefined){state.enemyTier=idx;if(!Number.isFinite(state.enemyHp)||state.enemyHp<=0||state.enemyHp>en.hp)state.enemyHp=en.hp}
+ else if(state.enemyTier!==idx){state.enemyTier=idx;state.enemyHp=en.hp;save()}
+ else if(!Number.isFinite(state.enemyHp)||state.enemyHp<=0||state.enemyHp>en.hp){state.enemyHp=en.hp}
+ ["heroImg","gearImg"].forEach(id=>document.getElementById(id).src=st.img);
+ ["enemyImg","battleEnemyImg","animEnemyImg"].forEach(id=>{const el=document.getElementById(id);if(el)el.src=en.img});
  document.getElementById("titleBadge").textContent=st.title;document.getElementById("formText").textContent=st.title;
  document.getElementById("levelText").textContent="Lv."+state.level;document.getElementById("powerText").textContent=power().toLocaleString();
  document.getElementById("xpText").textContent=state.xp+" / "+xpNeed(state.level);document.getElementById("xpFill").style.width=Math.min(100,state.xp/xpNeed(state.level)*100)+"%";
- document.getElementById("totalWorkouts").textContent=state.totalWorkouts;document.getElementById("kills").textContent=state.kills;document.getElementById("goldText").textContent=(state.gold||0).toLocaleString();document.getElementById("gearTier").textContent=st.img;
+ document.getElementById("totalWorkouts").textContent=state.totalWorkouts;document.getElementById("kills").textContent=state.kills;document.getElementById("goldText").textContent=(state.gold||0).toLocaleString();document.getElementById("gearTier").textContent=st.tier;
  const labels={STR:"STR 胸・腕",SHOULDER:"SHOULDER 肩",BACK:"BACK 背中",CORE:"CORE 体幹",LEG:"LEG 脚"};
  document.getElementById("muscleGrid").innerHTML=Object.entries(state.muscles).map(([k,m])=>'<div class="muscle"><b>'+labels[k]+'</b><span>Lv.'+m.lv+'</span><div class="small">EXP '+m.xp+' / 100</div></div>').join("");
  ["enemyName","battleEnemy"].forEach(id=>document.getElementById(id).textContent=en.name);
- document.getElementById("enemyLv").textContent=en.lv;document.getElementById("enemyHpText").textContent=state.enemyHp+" / "+en.hp;document.getElementById("battleHp").textContent=state.enemyHp+" / "+en.hp;
+ document.getElementById("enemyLv").textContent=en.lv;document.getElementById("enemyHpText").textContent=state.enemyHp.toLocaleString()+" / "+en.hp.toLocaleString();document.getElementById("battleHp").textContent=state.enemyHp.toLocaleString()+" / "+en.hp.toLocaleString();
  const hp=Math.max(0,Math.min(100,state.enemyHp/en.hp*100));document.getElementById("enemyHpFill").style.width=hp+"%";document.getElementById("battleHpFill").style.width=hp+"%";
  document.getElementById("gearDesc").innerHTML='<b style="color:#e9bb54">'+st.title+'</b><div class="small">'+st.desc+'</div>';
- const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'最終覚醒済み';
+ const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'Lv.100 最終覚醒済み';
  renderHistory();
 }
 function renderTraining(){
@@ -334,12 +348,13 @@ function attackClass(prs){
 async function playBattleSequence(data){
   const ov=document.getElementById("battleOverlay"), st=stage();
   const en=data.enemyBefore;
-  document.getElementById("animPlayerImg").src="stage_"+st.img+".jpg";
+  document.getElementById("animPlayerImg").src=st.img;
+  document.getElementById("animEnemyImg").src=en.img;
   document.getElementById("animEnemyName").textContent=en.name;
   document.getElementById("animHpName").textContent=en.name;
-  document.getElementById("animHpText").textContent=data.hpBefore+" / "+en.hp;
+  document.getElementById("animHpText").textContent=data.hpBefore.toLocaleString()+" / "+en.hp.toLocaleString();
   document.getElementById("animHpFill").style.width=Math.max(0,data.hpBefore/en.hp*100)+"%";
-  document.getElementById("battleMessage").textContent="現実の修行を攻撃力へ変換...";
+  document.getElementById("battleMessage").textContent=en.lv+"　現実の修行を攻撃力へ変換...";
   document.getElementById("rewardPanel").classList.remove("show");
   ov.classList.add("show"); ov.setAttribute("aria-hidden","false");
   await wait(650);
@@ -358,7 +373,7 @@ async function playBattleSequence(data){
   if(data.attack.cls==="critical") playSfx("win"); else playSfx("hit");
   await wait(350);
   document.getElementById("animHpFill").style.width=Math.max(0,data.hpAfter/en.hp*100)+"%";
-  document.getElementById("animHpText").textContent=Math.max(0,data.hpAfter)+" / "+en.hp;
+  document.getElementById("animHpText").textContent=Math.max(0,data.hpAfter).toLocaleString()+" / "+en.hp.toLocaleString();
   p.classList.remove("attack");p.classList.add("recoil");
   await wait(650);
   slash.classList.remove("fire");flash.classList.remove("fire");enemy.classList.remove("hit","criticalHit");p.classList.remove("recoil");
@@ -381,7 +396,7 @@ async function playLevelSequence(data){
   if(data.newLv<=data.oldLv)return;
   const ov=document.getElementById("levelOverlay"),st=stage();
   document.getElementById("levelJump").textContent="Lv."+data.oldLv+" → Lv."+data.newLv;
-  document.getElementById("levelCharImg").src="stage_"+st.img+".jpg";
+  document.getElementById("levelCharImg").src=st.img;
   document.getElementById("levelPowerGain").textContent="+"+Math.max(0,data.powerAfter-data.powerBefore).toLocaleString();
   document.getElementById("levelMuscleGain").textContent=data.muscleUps.length+" UP";
   const oldStage=stages.slice().reverse().find(x=>x.lv<=data.oldLv)||stages[0];
@@ -401,7 +416,7 @@ async function finalizeWorkout(){
  document.getElementById("reviewOverlay").classList.remove("show");
  let earned=90,prs=0,gains={STR:0,SHOULDER:0,BACK:0,CORE:0,LEG:0};
  const powerBefore=power();
- const enemyBefore={...enemies[state.enemyIndex%enemies.length]};
+ const enemyBefore={...currentEnemy()};
  const hpBefore=state.enemyHp;
 
  state.menu.forEach(ex=>{
@@ -431,11 +446,11 @@ async function finalizeWorkout(){
  let defeated=null,drop="",goldEarned=25+prs*10;
  if(state.enemyHp<=0){
    defeated=enemyBefore;state.kills++;
-   goldEarned+=50+state.enemyIndex*20;
-   const drops=["鉄鉱石","革素材","魔石","強化石","竜鱗"];
-   drop=drops[Math.min(state.enemyIndex,drops.length-1)];
-   state.enemyIndex=(state.enemyIndex+1)%enemies.length;
-   state.enemyHp=enemies[state.enemyIndex].hp;
+   goldEarned+=enemyBefore.gold;
+   drop=enemyBefore.drop;
+   const nextIdx=enemyIndexForLevel(state.level);
+   state.enemyTier=nextIdx;
+   state.enemyHp=enemies[nextIdx].hp;
  }
  state.gold=(state.gold||0)+goldEarned;
  state.history.unshift({date:new Date().toLocaleDateString("ja-JP"),exp:earned,damage,prs,level:state.level,attack:atk.name});
