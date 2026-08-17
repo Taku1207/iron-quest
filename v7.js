@@ -219,20 +219,45 @@ function renderEditor(){
  })
 }
 function attachEditorDrag(item){
- const handle=item.querySelector(".dragHandle");let dragging=false,startY=0,pointerId=null,holdTimer=null;
+ const handle=item.querySelector(".dragHandle");
+ let dragging=false,startY=0,startX=0,pointerId=null,holdTimer=null,ghost=null,lastY=0;
+ const root=()=>document.getElementById("menuEditor");
  const clearMarks=()=>document.querySelectorAll("#menuEditor .editorItem").forEach(x=>x.classList.remove("dropBefore","dropAfter"));
- const begin=e=>{syncEditorValues();dragging=true;pointerId=e.pointerId;startY=e.clientY;item.classList.add("dragging");document.body.classList.add("reorderingMenu");try{handle.setPointerCapture(pointerId)}catch(_){}};
- handle.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse"){begin(e);return}startY=e.clientY;pointerId=e.pointerId;holdTimer=setTimeout(()=>begin(e),240)});
- handle.addEventListener("pointermove",e=>{
-  if(!dragging){if(holdTimer&&Math.abs(e.clientY-startY)>8){clearTimeout(holdTimer);holdTimer=null}return}
-  e.preventDefault();const el=document.elementFromPoint(e.clientX,e.clientY),target=el&&el.closest("#menuEditor .editorItem");if(!target||target===item)return;
-  clearMarks();const rect=target.getBoundingClientRect(),before=e.clientY<rect.top+rect.height/2;target.classList.add(before?"dropBefore":"dropAfter");
-  const draggedEx=item._menuRef,targetEx=target._menuRef,from=state.menu.indexOf(draggedEx),to=state.menu.indexOf(targetEx);if(from<0||to<0)return;
-  state.menu.splice(from,1);let insert=state.menu.indexOf(targetEx)+(before?0:1);state.menu.splice(insert,0,draggedEx);
-  if(before)target.parentNode.insertBefore(item,target);else target.parentNode.insertBefore(item,target.nextSibling);
+ const cleanupListeners=()=>{document.removeEventListener("pointermove",onMove,true);document.removeEventListener("pointerup",finish,true);document.removeEventListener("pointercancel",finish,true)};
+ const makeGhost=(x,y)=>{
+  ghost=item.cloneNode(true);ghost.className="editorDragGhost";ghost.querySelectorAll("input,select,button").forEach(el=>{el.disabled=true;el.tabIndex=-1});
+  document.body.appendChild(ghost);moveGhost(x,y)
+ };
+ const moveGhost=(x,y)=>{if(!ghost)return;ghost.style.left=Math.max(8,Math.min(window.innerWidth-ghost.offsetWidth-8,x-ghost.offsetWidth+36))+"px";ghost.style.top=Math.max(8,Math.min(window.innerHeight-ghost.offsetHeight-8,y-34))+"px"};
+ const begin=(x,y)=>{if(dragging)return;syncEditorValues();dragging=true;lastY=y;item.classList.add("draggingSource");document.body.classList.add("reorderingMenu");makeGhost(x,y);if(navigator.vibrate)try{navigator.vibrate(18)}catch(_){}};
+ const reorderAt=y=>{
+  const items=[...document.querySelectorAll("#menuEditor .editorItem")].filter(x=>x!==item);if(!items.length)return;
+  clearMarks();let target=null,before=true;
+  for(const x of items){const r=x.getBoundingClientRect();if(y<r.top+r.height/2){target=x;before=true;break}}
+  if(!target){target=items[items.length-1];before=false}
+  target.classList.add(before?"dropBefore":"dropAfter");
+  const parent=root();if(before){if(item.nextSibling!==target)parent.insertBefore(item,target)}else{if(target.nextSibling!==item)parent.insertBefore(item,target.nextSibling)}
+ };
+ const autoScroll=y=>{const edge=110,max=14;if(y<edge)window.scrollBy(0,-Math.ceil((edge-y)/edge*max));else if(y>window.innerHeight-edge)window.scrollBy(0,Math.ceil((y-(window.innerHeight-edge))/edge*max))};
+ const onMove=e=>{
+  if(e.pointerId!==pointerId)return;lastY=e.clientY;
+  if(!dragging){if(holdTimer&&(Math.abs(e.clientY-startY)>10||Math.abs(e.clientX-startX)>10)){clearTimeout(holdTimer);holdTimer=null}return}
+  e.preventDefault();moveGhost(e.clientX,e.clientY);autoScroll(e.clientY);reorderAt(e.clientY)
+ };
+ const finish=e=>{
+  if(pointerId!==null&&e.pointerId!==undefined&&e.pointerId!==pointerId)return;
+  if(holdTimer){clearTimeout(holdTimer);holdTimer=null}
+  cleanupListeners();
+  if(!dragging){pointerId=null;return}
+  dragging=false;clearMarks();item.classList.remove("draggingSource");document.body.classList.remove("reorderingMenu");if(ghost){ghost.remove();ghost=null}
+  const ordered=[...document.querySelectorAll("#menuEditor .editorItem")].map(x=>x._menuRef).filter(Boolean);if(ordered.length===state.menu.length)state.menu=ordered;
+  save();renderTraining();renderEditor();toast("種目の順番を保存しました");pointerId=null
+ };
+ handle.addEventListener("pointerdown",e=>{
+  if(pointerId!==null)return;e.preventDefault();pointerId=e.pointerId;startY=e.clientY;startX=e.clientX;
+  document.addEventListener("pointermove",onMove,true);document.addEventListener("pointerup",finish,true);document.addEventListener("pointercancel",finish,true);
+  if(e.pointerType==="mouse")begin(e.clientX,e.clientY);else holdTimer=setTimeout(()=>begin(startX,startY),260)
  });
- const finish=e=>{if(holdTimer){clearTimeout(holdTimer);holdTimer=null}if(!dragging)return;dragging=false;item.classList.remove("dragging");document.body.classList.remove("reorderingMenu");clearMarks();save();renderTraining();toast("種目の順番を保存しました");try{handle.releasePointerCapture(pointerId)}catch(_){}};
- handle.addEventListener("pointerup",finish);handle.addEventListener("pointercancel",finish);
 }
 document.getElementById("addExercise").addEventListener("click",()=>{syncEditorValues();state.menu.push({name:"新しい種目",muscle:"STR",sets:[{kg:10,reps:15},{kg:10,reps:15}]});renderEditor()});
 document.getElementById("saveMenu").addEventListener("click",()=>{syncEditorValues();save();toast("メニューを保存しました");renderTraining()});

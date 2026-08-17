@@ -120,3 +120,10 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .editorItem.dropBefore:before{top:-7px}.editorItem.dropAfter:after{bottom:-7px}
 body.reorderingMenu{overflow:hidden;overscroll-behavior:none}
 @media(max-width:480px){.editor{grid-template-columns:1.45fr .65fr .65fr .55fr}.dragHandle{padding:8px 10px}}
+
+/* v7.4 mobile-safe training reorder */
+.editorItem.draggingSource{opacity:.28;transform:scale(.99);border-color:#e1bd50!important;box-shadow:inset 0 0 0 1px rgba(225,189,80,.35)}
+.editorDragGhost{position:fixed;z-index:99999;width:min(88vw,620px);pointer-events:none;opacity:.96;transform:scale(.985);border:1px solid #e1bd50;border-radius:14px;background:#071725;box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 1px rgba(225,189,80,.28);padding:12px;max-height:180px;overflow:hidden}
+.editorDragGhost .editorItemTop{margin-bottom:8px}.editorDragGhost .dragHandle{border-color:#e1bd50;color:#f3d979}.editorDragGhost .del{display:none}
+body.reorderingMenu,body.reorderingMenu *{-webkit-user-select:none!important;user-select:none!important}
+body.reorderingMenu .tabs{pointer-events:none}
