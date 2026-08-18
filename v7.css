@@ -127,3 +127,5 @@ body.reorderingMenu{overflow:hidden;overscroll-behavior:none}
 .editorDragGhost .editorItemTop{margin-bottom:8px}.editorDragGhost .dragHandle{border-color:#e1bd50;color:#f3d979}.editorDragGhost .del{display:none}
 body.reorderingMenu,body.reorderingMenu *{-webkit-user-select:none!important;user-select:none!important}
 body.reorderingMenu .tabs{pointer-events:none}
+
+/* v8.2 progression: 25 enemy stages / 12 image kinds / 15 hero forms */

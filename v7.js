@@ -13,23 +13,48 @@ const defaultMenu=[
 {name:"アダクター",muscle:"LEG",sets:[{kg:15,reps:20}]}
 ];
 const enemies=[
-{name:"ゴブリン",recLv:1,recPower:650,hp:400,atk:95,def:30,crit:3,gold:60,exp:30,img:"enemy_goblin.jpg",drop:"ゴブリンの牙",dropItem:"guard_charm"},
-{name:"スケルトン",recLv:6,recPower:1050,hp:1200,atk:245,def:85,crit:5,gold:120,exp:60,img:"enemy_skeleton.jpg",drop:"骨の護符",dropItem:"bone_charm"},
-{name:"オーク",recLv:11,recPower:1650,hp:1850,atk:335,def:130,crit:6,gold:240,exp:100,img:"enemy_orc.jpg",drop:"オークの腕輪",dropItem:"orc_bracer"},
-{name:"オーガ",recLv:21,recPower:2500,hp:3300,atk:470,def:195,crit:8,gold:480,exp:180,img:"enemy_ogre.jpg",drop:"巨人の護符",dropItem:"giant_charm"},
-{name:"ワイバーン",recLv:36,recPower:4000,hp:5800,atk:660,def:275,crit:10,gold:900,exp:320,img:"enemy_wyvern.jpg",drop:"飛竜の腕甲",dropItem:"wyvern_bracer"},
-{name:"ドラゴン",recLv:61,recPower:6500,hp:9800,atk:930,def:390,crit:12,gold:1800,exp:560,img:"enemy_dragon.jpg",drop:"竜の紋章",dropItem:"dragon_emblem"},
-{name:"魔王 / 古竜",recLv:86,recPower:9500,hp:16000,atk:1280,def:535,crit:15,gold:4000,exp:1000,img:"enemy_final.jpg",drop:"覇者の指輪",dropItem:"conqueror_ring"}
+{name:"ゴブリン見習い",recLv:1,recPower:648,hp:483,atk:91,def:29,crit:3,gold:66,exp:28,img:"enemy_goblin.jpg",drop:"守りの護符",dropItem:"guard_charm"},
+{name:"ゴブリン兵",recLv:2,recPower:738,hp:651,atk:101,def:34,crit:3,gold:88,exp:32,img:"enemy_goblin.jpg",drop:"鉄剣",dropItem:"iron_sword"},
+{name:"スケルトン従兵",recLv:3,recPower:828,hp:821,atk:110,def:39,crit:3,gold:109,exp:36,img:"enemy_skeleton.jpg",drop:"骨の護符",dropItem:"bone_charm"},
+{name:"スケルトン剣士",recLv:4,recPower:919,hp:992,atk:120,def:44,crit:3,gold:131,exp:40,img:"enemy_skeleton.jpg",drop:"鉄兜",dropItem:"iron_helm"},
+{name:"オーク戦士",recLv:5,recPower:1011,hp:1165,atk:129,def:48,crit:3,gold:153,exp:44,img:"enemy_orc.jpg",drop:"オークの腕輪",dropItem:"orc_bracer"},
+{name:"紫帽の呪戦士",recLv:6,recPower:1102,hp:1339,atk:139,def:53,crit:3,gold:175,exp:48,img:"enemy_special_a.jpg",drop:"会心の指輪",dropItem:"crit_ring"},
+{name:"オーク隊長",recLv:7,recPower:1194,hp:1514,atk:148,def:58,crit:3,gold:198,exp:52,img:"enemy_orc.jpg",drop:"鉄鎧",dropItem:"iron_armor"},
+{name:"オーガ",recLv:8,recPower:1287,hp:1689,atk:158,def:63,crit:3,gold:220,exp:56,img:"enemy_ogre.jpg",drop:"巨人の護符",dropItem:"giant_charm"},
+{name:"ワイバーン幼体",recLv:9,recPower:1379,hp:1866,atk:167,def:68,crit:3,gold:242,exp:60,img:"enemy_wyvern.jpg",drop:"飛竜の腕甲",dropItem:"wyvern_bracer"},
+{name:"骨騎士",recLv:10,recPower:1472,hp:2042,atk:177,def:73,crit:3,gold:265,exp:64,img:"enemy_blackknight.jpg",drop:"鋼鉄剣",dropItem:"steel_sword"},
+{name:"紫煙の魔女",recLv:12,recPower:1658,hp:2398,atk:196,def:83,crit:4,gold:310,exp:72,img:"enemy_special_b.jpg",drop:"命の首飾り",dropItem:"life_necklace"},
+{name:"ワイバーン",recLv:14,recPower:1844,hp:2755,atk:215,def:93,crit:4,gold:355,exp:80,img:"enemy_wyvern.jpg",drop:"飛竜の腕甲",dropItem:"wyvern_bracer"},
+{name:"黒騎士",recLv:16,recPower:2031,hp:3114,atk:234,def:102,crit:4,gold:400,exp:88,img:"enemy_blackknight.jpg",drop:"黒鋼兜",dropItem:"black_helm"},
+{name:"デーモン衛兵",recLv:18,recPower:2219,hp:3475,atk:254,def:112,crit:4,gold:445,exp:96,img:"enemy_blackknight.jpg",drop:"黒鋼手甲",dropItem:"black_bracer"},
+{name:"闇の女騎士",recLv:20,recPower:2407,hp:3837,atk:273,def:122,crit:4,gold:491,exp:104,img:"enemy_special_c.jpg",drop:"魔剣",dropItem:"demon_sword"},
+{name:"ドラゴニュート",recLv:24,recPower:2783,hp:4565,atk:311,def:142,crit:5,gold:582,exp:120,img:"enemy_dragonewt.jpg",drop:"竜角兜",dropItem:"dragon_helm"},
+{name:"ヘルハウンド王",recLv:28,recPower:3162,hp:5298,atk:350,def:162,crit:5,gold:674,exp:136,img:"enemy_dragonewt.jpg",drop:"黒鋼脚甲",dropItem:"black_legs"},
+{name:"死霊術師",recLv:32,recPower:3541,hp:6035,atk:389,def:181,crit:5,gold:767,exp:152,img:"enemy_undeadking.jpg",drop:"黒鋼鎧",dropItem:"black_armor"},
+{name:"巨鬼将軍",recLv:36,recPower:3921,hp:6775,atk:428,def:201,crit:6,gold:859,exp:168,img:"enemy_ogre.jpg",drop:"巨人の護符",dropItem:"giant_charm"},
+{name:"古竜",recLv:40,recPower:4303,hp:7519,atk:466,def:221,crit:6,gold:952,exp:184,img:"enemy_finalboss.jpg",drop:"竜の紋章",dropItem:"dragon_emblem"},
+{name:"魔王親衛隊長",recLv:50,recPower:5260,hp:9390,atk:564,def:270,crit:7,gold:1185,exp:224,img:"enemy_undeadking.jpg",drop:"神話剣",dropItem:"mythic_sword"},
+{name:"災厄竜",recLv:60,recPower:6221,hp:11277,atk:661,def:320,crit:8,gold:1419,exp:264,img:"enemy_finalboss.jpg",drop:"竜鎧",dropItem:"dragon_armor"},
+{name:"堕ちた英雄",recLv:75,recPower:7669,hp:14132,atk:807,def:394,crit:9,gold:1773,exp:324,img:"enemy_undeadking.jpg",drop:"覇者の指輪",dropItem:"conqueror_ring"},
+{name:"深淵魔王",recLv:90,recPower:9124,hp:17011,atk:954,def:468,crit:10,gold:2128,exp:384,img:"enemy_undeadking.jpg",drop:"覇者の指輪",dropItem:"conqueror_ring"},
+{name:"終焉の竜帝",recLv:120,recPower:12051,hp:22833,atk:1248,def:617,crit:13,gold:2844,exp:504,img:"enemy_finalboss.jpg",drop:"覇者の指輪",dropItem:"conqueror_ring"}
 ];
 const stages=[
-{lv:1,title:"冒険者",desc:"初期装備。ここから修行が始まる。",img:"hero_lv1.jpg",tier:1},
-{lv:3,title:"木剣士",desc:"木剣を獲得。最初の進化。",img:"hero_lv3.jpg",tier:2},
-{lv:5,title:"革装戦士",desc:"革装備を獲得し、防具が強化。",img:"hero_lv5.jpg",tier:2},
-{lv:10,title:"蒼刃兵",desc:"蒼い武装を解放。戦士として覚醒。",img:"hero_lv10.jpg",tier:3},
-{lv:20,title:"鉄刃剣士",desc:"本格装備を獲得し、戦闘力が上昇。",img:"hero_lv20.jpg",tier:4},
-{lv:40,title:"重装隊長",desc:"重装備と隊長級の威圧感を獲得。",img:"hero_lv40.jpg",tier:5},
-{lv:70,title:"英雄級",desc:"英雄級の力とオーラを解放。",img:"hero_lv70.jpg",tier:6},
-{lv:100,title:"覇者",desc:"最終覚醒。IRON QUESTの頂点。",img:"hero_lv100.jpg",tier:7}
+{lv:1,title:"冒険者",desc:"修行の始まり。",img:"hero_v82_lv1.jpg",tier:1},
+{lv:3,title:"木剣士",desc:"最初の武器を手にした。",img:"hero_v82_lv3.jpg",tier:2},
+{lv:5,title:"革装戦士",desc:"軽装備が整い戦士らしくなる。",img:"hero_v82_lv5.jpg",tier:2},
+{lv:10,title:"蒼刃兵",desc:"蒼い武装を解放。",img:"hero_v82_lv10.jpg",tier:3},
+{lv:15,title:"鉄刃剣士",desc:"鉄刃を操る前線戦士。",img:"hero_v82_lv15.jpg",tier:3},
+{lv:20,title:"紋章騎士",desc:"紋章を授かった騎士。",img:"hero_v82_lv20.jpg",tier:4},
+{lv:30,title:"黒鋼隊長",desc:"黒鋼装備を纏う隊長級。",img:"hero_v82_lv30.jpg",tier:4},
+{lv:40,title:"王国騎士",desc:"王国を代表する重騎士。",img:"hero_v82_lv40.jpg",tier:5},
+{lv:50,title:"魔鋼の戦士",desc:"魔力を帯びた鋼を扱う。",img:"hero_v82_lv50.jpg",tier:5},
+{lv:60,title:"紫電の剣豪",desc:"紫電を纏う剣豪へ。",img:"hero_v82_lv60.jpg",tier:6},
+{lv:75,title:"竜刻の戦将",desc:"竜の力を刻んだ戦将。",img:"hero_v82_lv75.jpg",tier:6},
+{lv:90,title:"神鉄覇者",desc:"神鉄の武装を得た覇者。",img:"hero_v82_lv90.jpg",tier:7},
+{lv:110,title:"深淵征服者",desc:"深淵を越えてなお進む。",img:"hero_v82_lv110.jpg",tier:8},
+{lv:140,title:"星喰い王",desc:"人の領域を越えた王。",img:"hero_v82_lv140.jpg",tier:9},
+{lv:200,title:"鉄神皇",desc:"IRON QUESTの超越到達点。レベルはこの先も上昇する。",img:"hero_v82_lv200.jpg",tier:10}
 ];
 const slotNames={weapon:"武器",head:"頭",body:"胴",arms:"腕",legs:"脚",accessory:"アクセ"};
 const slotIcons={weapon:"⚔️",head:"🪖",body:"🛡️",arms:"🥊",legs:"🥾",accessory:"💍"};
@@ -75,10 +100,10 @@ const equipment=[
 ];
 const starters=["starter_sword","cloth_head","cloth_body","cloth_arms","cloth_legs","plain_charm"];
 const starterEquipped={weapon:"starter_sword",head:"cloth_head",body:"cloth_body",arms:"cloth_arms",legs:"cloth_legs",accessory:"plain_charm"};
-const BP_MAX=5,BP_REGEN_MS=24*60*60*1000;
+const BP_MAX=5,BP_REGEN_MS=8*60*60*1000;
 const initial={level:1,xp:0,totalWorkouts:0,kills:0,enemyTier:0,selectedEnemyTier:0,enemyHp:400,bp:5,bpLastRegen:Date.now(),
  muscles:{STR:{lv:1,xp:0},SHOULDER:{lv:1,xp:0},BACK:{lv:1,xp:0},CORE:{lv:1,xp:0},LEG:{lv:1,xp:0}},
- menu:defaultMenu,records:{},history:[],gold:0,inventory:{},equipped:starterEquipped,shopFilter:"weapon",clearedAll:false,lastWorkoutBpDate:""};
+ menu:defaultMenu,records:{},history:[],gold:0,inventory:{},equipped:starterEquipped,shopFilter:"weapon",clearedAll:false,lastWorkoutBpDate:"",progressionVersion:82};
 const clone=x=>JSON.parse(JSON.stringify(x));
 function load(){
  try{
@@ -92,6 +117,20 @@ function load(){
   Object.keys(s.inventory).forEach(id=>{const inv=s.inventory[id]||{};s.inventory[id]={owned:inv.owned!==false,copies:Math.max(1,Number.isFinite(+inv.copies)?+inv.copies:1),upgrade:Math.max(0,Math.min(5,Number.isFinite(+inv.upgrade)?+inv.upgrade:0)),fuseLevel:Math.max(1,Math.min(5,Number.isFinite(+inv.fuseLevel)?+inv.fuseLevel:1)),new:!!inv.new}});
   starters.forEach(id=>{if(!s.inventory[id])s.inventory[id]={owned:true,copies:1,upgrade:0,fuseLevel:1,new:false}});
   s.equipped=Object.assign({},starterEquipped,old?.equipped||{});
+  if(old&&old.progressionVersion!==82){
+   const oldToV8=[0,2,3,5,8,11,14];
+   const oldTier=Math.max(0,Math.min(6,Number.isFinite(+old.enemyTier)?+old.enemyTier:0));
+   const oldSelected=Math.max(0,Math.min(6,Number.isFinite(+old.selectedEnemyTier)?+old.selectedEnemyTier:oldTier));
+   if(old.progressionVersion===8){
+     s.enemyTier=Math.max(0,Math.min(24,Number.isFinite(+old.enemyTier)?+old.enemyTier:0));
+     s.selectedEnemyTier=Math.max(0,Math.min(s.enemyTier,Number.isFinite(+old.selectedEnemyTier)?+old.selectedEnemyTier:s.enemyTier));
+     s.clearedAll=!!old.clearedAll;
+   }else if(old.clearedAll){s.enemyTier=23;s.selectedEnemyTier=23;s.clearedAll=false}else{
+     const oldToV82=[0,5,10,14,18,21,23];
+     s.enemyTier=oldToV82[oldTier];s.selectedEnemyTier=Math.min(s.enemyTier,oldToV82[oldSelected])
+   }
+  }
+  s.progressionVersion=82;
   s.enemyTier=Math.max(0,Math.min(enemies.length-1,Number.isFinite(+s.enemyTier)?+s.enemyTier:0));
   s.selectedEnemyTier=Math.max(0,Math.min(s.enemyTier,Number.isFinite(+s.selectedEnemyTier)?+s.selectedEnemyTier:s.enemyTier));
   s.bp=old&&Number.isFinite(+old.bp)?Math.max(0,Math.min(BP_MAX,+old.bp)):BP_MAX;
@@ -101,7 +140,7 @@ function load(){
 }
 let state=load(),audioCtx=null,bgmTimer=null,bgmOn=false;
 function save(){try{localStorage.setItem("ironQuestV4",JSON.stringify(state))}catch(e){}}
-function xpNeed(lv){return 100+Math.floor((lv-1)*18)}
+function xpNeed(lv){return 70+Math.floor((lv-1)*3)}
 function stage(){let s=stages[0];stages.forEach(v=>{if(state.level>=v.lv)s=v});return s}
 function currentEnemy(){return enemies[Math.max(0,Math.min(enemies.length-1,state.enemyTier||0))]}
 function selectedEnemy(){const max=state.clearedAll?enemies.length-1:state.enemyTier;state.selectedEnemyTier=Math.max(0,Math.min(max,Number.isFinite(+state.selectedEnemyTier)?+state.selectedEnemyTier:max));return enemies[state.selectedEnemyTier]}
@@ -138,7 +177,7 @@ function renderAll(){
  document.getElementById("enemyName").textContent=en.name;document.getElementById("enemyLv").textContent="STAGE "+(state.enemyTier+1);document.getElementById("enemyHpText").textContent=en.hp.toLocaleString()+" HP";document.getElementById("enemyHpFill").style.width="100%";document.getElementById("enemyRecLv").textContent="Lv."+en.recLv;document.getElementById("enemyRecPower").textContent=en.recPower.toLocaleString();document.getElementById("homeRisk").className="risk "+r.cls;document.getElementById("homeRisk").textContent=r.text;
  document.getElementById("battleEnemy").textContent=ben.name;document.getElementById("battleHp").textContent=ben.hp.toLocaleString()+" HP";document.getElementById("battleHpFill").style.width="100%";document.getElementById("battleRecLv").textContent="Lv."+ben.recLv;document.getElementById("battleRecPower").textContent=ben.recPower.toLocaleString();document.getElementById("battleRisk").className="risk "+br.cls;document.getElementById("battleRisk").textContent=br.text;
  document.getElementById("battleVsStats").innerHTML='<b>TAKU</b>　HP '+cs.hp.toLocaleString()+' / ATK '+cs.atk+' / DEF '+cs.def+' / CRIT '+cs.crit+'%<br><span class="small">推奨Lvは目安です。撃破済みの敵は何度でも再戦できます。</span>';
- document.getElementById("gearDesc").innerHTML='<b style="color:#e9bb54">'+st.title+'</b><div class="small">'+st.desc+'</div>';const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'Lv.100 最終覚醒済み';
+ document.getElementById("gearDesc").innerHTML='<b style="color:#e9bb54">'+st.title+'</b><div class="small">'+st.desc+'</div>';const next=stages.find(x=>x.lv>state.level);document.getElementById("evolutionText").textContent=next?'Lv.'+next.lv+'「'+next.title+'」で '+next.desc:'Lv.200到達済み。レベルは200以降も上昇します';
  renderEnemySelector();renderBpUI();renderGear();renderHistory();
 }
 function renderTraining(){
