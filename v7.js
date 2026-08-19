@@ -302,11 +302,13 @@ document.getElementById("addExercise").addEventListener("click",()=>{syncEditorV
 document.getElementById("saveMenu").addEventListener("click",()=>{syncEditorValues();save();toast("メニューを保存しました");renderTraining()});
 function renderHistory(){const root=document.getElementById("history");if(!root)return;root.innerHTML=state.history.length?state.history.map(h=>{if(h.kind==="BATTLE")return '<div class="historyItem"><b>'+h.date+'　'+(h.result==="WIN"?'勝利':'敗北')+(h.replay?'（再戦）':'')+' vs '+h.enemy+'</b><div class="small">'+(h.gold>=0?'+':'')+h.gold+' GOLD / +'+(h.exp||0)+' EXP / BP -1 / Lv.'+h.level+'</div></div>';return '<div class="historyItem"><b>'+h.date+'　修行 Lv.'+h.level+'</b><div class="small">+'+(h.exp||0)+' EXP / BP +'+(h.bp||0)+' / PR '+(h.prs||0)+'種目</div></div>'}).join(""):'<div class="small">まだ記録はありません。</div>'}
 document.getElementById("resetData").addEventListener("click",()=>{if(confirm("全記録を初期化しますか？")){state=clone(initial);starters.forEach(id=>state.inventory[id]={owned:true,copies:1,upgrade:0,fuseLevel:1,new:false});save();renderAll();renderEditor();renderTraining();toast("初期化しました")}});
-function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
-function tone(f,d,type="triangle",gain=.02){ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=f;g.gain.value=gain;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d)}
-function playSfx(kind){if(!bgmOn)return;if(kind==="win"){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.18,"triangle",.04),i*110))}else tone(120,.12,"sawtooth",.04)}
-function startBgm(){ensureAudio();bgmOn=true;document.getElementById("soundBtn").textContent="♪ ON";const notes=[220,261.6,329.6,293.7,246.9,293.7,329.6,392];let i=0;bgmTimer=setInterval(()=>tone(notes[i++%notes.length],.32,"triangle",.012),420)}
-function stopBgm(){bgmOn=false;clearInterval(bgmTimer);document.getElementById("soundBtn").textContent="♪ OFF"}
-document.getElementById("soundBtn").addEventListener("click",()=>bgmOn?stopBgm():startBgm());
+function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
+async function unlockAudio(){const ctx=ensureAudio();if(ctx.state==="suspended"){try{await ctx.resume()}catch(_){}}return ctx}
+function tone(f,d,type="triangle",gain=.02){const ctx=ensureAudio();if(ctx.state!=="running")return;const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(gain,ctx.currentTime);o.connect(g);g.connect(ctx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+d);o.stop(ctx.currentTime+d)}
+async function playSfx(kind){if(!bgmOn)return;await unlockAudio();if(kind==="win"){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.18,"triangle",.04),i*110))}else tone(120,.12,"sawtooth",.04)}
+async function startBgm(){await unlockAudio();if(audioCtx.state!=="running"){toast("音声を開始できませんでした。もう一度♪をタップしてください");return}bgmOn=true;document.getElementById("soundBtn").textContent="♪ ON";clearInterval(bgmTimer);const notes=[220,261.6,329.6,293.7,246.9,293.7,329.6,392];let i=0;tone(notes[i++%notes.length],.32,"triangle",.018);bgmTimer=setInterval(()=>{if(bgmOn)tone(notes[i++%notes.length],.32,"triangle",.012)},420)}
+function stopBgm(){bgmOn=false;clearInterval(bgmTimer);bgmTimer=null;document.getElementById("soundBtn").textContent="♪ OFF"}
+document.getElementById("soundBtn").addEventListener("click",async()=>{if(bgmOn)stopBgm();else await startBgm()});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&bgmOn&&audioCtx&&audioCtx.state==="suspended")audioCtx.resume().catch(()=>{})});
 syncBp();renderAll();setInterval(()=>{syncBp();renderBpUI()},1000);
 })();
